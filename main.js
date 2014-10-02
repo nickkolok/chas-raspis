@@ -41,90 +41,89 @@ var pary=[
 ];
 
 
-function countTable(zagol,p1,p2,target){
+function countTable(zagol,p1,p2,target,ugolnazv){
 
-var targetTable=document.createElement("table");
-var groups=base.getVariety(zagol);
-var th=('<td></td>'+groups.join('</th><th>').vTag('th')).vTag('tr');
-var maintable=[];
-var kolvoParVDen=pary.length;
-var kolvoPar=kolvoParVDen*6*2;
-var kolvoGroups=groups.length;
-for(var i=0;i<kolvoPar;i++){
-	maintable[i]=[
-		pary[((i-1)/2).round()%kolvoParVDen].bold()
-		];
-	maintable[i].length=kolvoGroups+1;
-}
-var groupsindex={};
-var nagr=['Нагрузка, ч/нед'];
-for(var gi=0;gi<kolvoGroups;gi++){
-	groupsindex[groups[gi]]=gi;
-	nagr[gi+1]=0;
-}
-
-var kolvoBase=base.length;
-var baseElem;
-for(var j=0;j<kolvoBase;j++){
-	baseElem=base[j];
-	for(var g=0;g<baseElem.grp.length;g++){
-		maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn][groupsindex[baseElem[zagol][g]]+1]=
-			[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
-		nagr[groupsindex[baseElem[zagol][g]]+1]++;
+	var targetTable=document.createElement("table");
+	var groups=base.getVariety(zagol);
+	var th=(ugolnazv.vTag('td')+groups.join('</th><th>').vTag('th')).vTag('tr');
+	var maintable=[];
+	var kolvoParVDen=pary.length;
+	var kolvoPar=kolvoParVDen*6*2;
+	var kolvoGroups=groups.length;
+	for(var i=0;i<kolvoPar;i++){
+		maintable[i]=[
+			pary[((i-1)/2).round()%kolvoParVDen].bold()
+			];
+		maintable[i].length=kolvoGroups+1;
 	}
-	
-}
-var maintableCopy=maintable.clone();
-for(var itr=0;itr<kolvoPar;itr++){
-	maintable[itr]=maintable[itr].join('</td><td>').vTag('td');
-}
+	var groupsindex={};
+	var nagr=['Нагрузка, ч/нед'];
+	for(var gi=0;gi<kolvoGroups;gi++){
+		groupsindex[groups[gi]]=gi;
+		nagr[gi+1]=0;
+	}
 
-var ih=maintable.join('</tr><tr>').vTag('tr');
-targetTable.innerHTML=th+ih+nagr.join('</td><td>').vTag('td').vTag('tr');
-$('#'+target)[0].appendChild(targetTable);
-
-$(targetTable).attr("cellspacing",0);
-$(targetTable).attr("cellpadding",0);
-
-var tablemap=[];
-var trs=targetTable.getElementsByTagName('tr');
-for(var i=0;i<kolvoPar;i++){
-	tablemap[i]=trs[i+1].getElementsByTagName('td');
-}
-
-for(var i=0;i<kolvoPar;i++)
-	for(var j=0;j<kolvoGroups+1;j++)
-		if(tablemap[i][j].innerHTML===''){
-			tablemap[i][j].innerHTML='&nbsp;';
-			tablemap[i][j].className="empty";
+	var kolvoBase=base.length;
+	var baseElem;
+	for(var j=0;j<kolvoBase;j++){
+		baseElem=base[j];
+		for(var g=0;g<baseElem.grp.length;g++){
+			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn][groupsindex[baseElem[zagol][g]]+1]=
+				[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
+			nagr[groupsindex[baseElem[zagol][g]]+1]++;
 		}
+		
+	}
+	var maintableCopy=maintable.clone();
+	for(var itr=0;itr<kolvoPar;itr++){
+		maintable[itr]=maintable[itr].join('</td><td>').vTag('td');
+	}
 
-for(var i=0;i<kolvoPar;i++){
-	var elemPerv=0;
-	for(var j=2;j<kolvoGroups+1;j++){
-		if(tablemap[i][j].innerHTML==tablemap[i][j-1].innerHTML && tablemap[i][j].innerHTML!='&nbsp;'){
-			if(elemPerv===0){
-				elemPerv=tablemap[i][j-1];
-				$(elemPerv).attr("colspan",1);
+	var ih=maintable.join('</tr><tr>').vTag('tr');
+	targetTable.innerHTML=th+ih+nagr.join('</td><td>').vTag('td').vTag('tr');
+	$('#'+target)[0].appendChild(targetTable);
+
+	$(targetTable).attr("cellspacing",0);
+	$(targetTable).attr("cellpadding",0);
+
+	var tablemap=[];
+	var trs=targetTable.getElementsByTagName('tr');
+	for(var i=0;i<kolvoPar;i++){
+		tablemap[i]=trs[i+1].getElementsByTagName('td');
+	}
+
+	for(var i=0;i<kolvoPar;i++)
+		for(var j=0;j<kolvoGroups+1;j++)
+			if(tablemap[i][j].innerHTML===''){
+				tablemap[i][j].innerHTML='&nbsp;';
+				tablemap[i][j].className="empty";
 			}
-			$(elemPerv).attr("colspan",1*$(elemPerv).attr("colspan")+1);
-			tablemap[i][j].style.display="none";
-		}else{
-			elemPerv=0;
+
+	for(var i=0;i<kolvoPar;i++){
+		var elemPerv=0;
+		for(var j=2;j<kolvoGroups+1;j++){
+			if(tablemap[i][j].innerHTML==tablemap[i][j-1].innerHTML && tablemap[i][j].innerHTML!='&nbsp;'){
+				if(elemPerv===0){
+					elemPerv=tablemap[i][j-1];
+					$(elemPerv).attr("colspan",1);
+				}
+				$(elemPerv).attr("colspan",1*$(elemPerv).attr("colspan")+1);
+				tablemap[i][j].style.display="none";
+			}else{
+				elemPerv=0;
+			}
 		}
 	}
-}
 
 
-for(var i=0;i<kolvoPar;i+=2){
-	for(var j=0;j<kolvoGroups+1;j++){
-		if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML){
-			$(tablemap[i][j]).attr("rowspan","2");
-			tablemap[i+1][j].style.display="none";
+	for(var i=0;i<kolvoPar;i+=2){
+		for(var j=0;j<kolvoGroups+1;j++){
+			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML){
+				$(tablemap[i][j]).attr("rowspan","2");
+				tablemap[i+1][j].style.display="none";
+			}
 		}
 	}
-}
-
 }
 
 function build(){
@@ -134,8 +133,8 @@ function build(){
 	}catch(e){
 		alert('Ошибка в записи базы');
 	}
-	countTable("grp","prep","aud",'targetGroups');
-	countTable("aud","prep","grp",'targetAud');
+	countTable("grp","prep","aud",'targetGroups','Группа');
+	countTable("aud","prep","grp",'targetAud','Аудитория');
 //	countTable("prep","grp","aud");
 }
 
