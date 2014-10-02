@@ -1,0 +1,12 @@
+td,th{
+	border:1px solid black;
+	text-align:center;
+	padding:0.3em;
+}
+td.empty{
+	border:1px dotted grey;
+}
+table{
+	margin:1em;
+	border:1px solid black;
+}

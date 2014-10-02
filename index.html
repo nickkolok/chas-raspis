@@ -1,0 +1,31 @@
+<!DOCTYPE HTML5>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>
+		Расписание
+	</title>
+	<link rel="stylesheet" type="text/css" href="mainstyle.css"/>
+</head>
+<body onload="$.jStorage.zagrData()" onunload="$.jStorage.sohrData()">
+	Данные:
+	<br/>
+	<textarea id="textbase" data-jstorage-id="textbase" rows="6" cols="128"></textarea>
+	<br/>
+	<button onclick="build();">
+		Построить таблицы
+	</button>
+	<div id="target">
+	</div>
+	<script src="jquery-2.1.0.min.js">
+	</script>
+	<script src="jstorage.min.js">
+	</script>
+	<script src="jstorage.zapomni.js">
+	</script>
+	<script src="chas-lib.min.js">
+	</script>
+	<script src="main.js">
+	</script>
+</body>
+</html>
