@@ -11,10 +11,6 @@
 	<link type="text/css" href="jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" />
 </head>
 <body onload="$.jStorage.zagrData()" onunload="$.jStorage.sohrData()">
-	Данные:
-	<br/>
-	<textarea id="textbase" data-jstorage-id="textbase" rows="6" cols="128"></textarea>
-	<br/>
 	<button onclick="build();">
 		Построить таблицы
 	</button>
@@ -24,6 +20,7 @@
 		<ul>
 			<li><a href="#tabs-1">По учебным группам</a></li>
 			<li><a href="#tabs-2">По аудиториям</a></li>
+			<li><a href="#tabs-data">Исходные данные</a></li>
 		</ul>
 		<div id="tabs-1">
 			<div id="targetGroups">
@@ -32,6 +29,11 @@
 		<div id="tabs-2">
 			<div id="targetAud">
 			</div>
+		</div>
+		<div id="tabs-data">
+			Данные:
+			<br/>
+			<textarea id="textbase" data-jstorage-id="textbase" rows="6" cols="128"></textarea>
 		</div>
 	</div>
 	
