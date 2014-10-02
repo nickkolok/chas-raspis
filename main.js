@@ -41,7 +41,7 @@ var pary=[
 ];
 
 
-function countTable(zagol,p1,p2){
+function countTable(zagol,p1,p2,target){
 
 var targetTable=document.createElement("table");
 var groups=base.getVariety(zagol);
@@ -81,7 +81,7 @@ for(var itr=0;itr<kolvoPar;itr++){
 
 var ih=maintable.join('</tr><tr>').vTag('tr');
 targetTable.innerHTML=th+ih+nagr.join('</td><td>').vTag('td').vTag('tr');
-$('#target')[0].appendChild(targetTable);
+$('#'+target)[0].appendChild(targetTable);
 
 $(targetTable).attr("cellspacing",0);
 $(targetTable).attr("cellpadding",0);
@@ -134,9 +134,12 @@ function build(){
 	}catch(e){
 		alert('Ошибка в записи базы');
 	}
-	countTable("grp","prep","aud");
-	countTable("aud","prep","grp");
-	countTable("prep","grp","aud");
+	countTable("grp","prep","aud",'targetGroups');
+	countTable("aud","prep","grp",'targetAud');
+//	countTable("prep","grp","aud");
 }
 
 $('#textbase').val(JSON.stringify(base));
+$(function(){
+  $("#tabs").tabs();
+});

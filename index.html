@@ -6,6 +6,9 @@
 		Расписание
 	</title>
 	<link rel="stylesheet" type="text/css" href="mainstyle.css"/>
+	<link type="text/css" href="jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+	<link type="text/css" href="jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" />
+	<link type="text/css" href="jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" />
 </head>
 <body onload="$.jStorage.zagrData()" onunload="$.jStorage.sohrData()">
 	Данные:
@@ -17,11 +20,28 @@
 	</button>
 	<div id="target">
 	</div>
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">По учебным группам</a></li>
+			<li><a href="#tabs-2">По аудиториям</a></li>
+		</ul>
+		<div id="tabs-1">
+			<div id="targetGroups">
+			</div>
+		</div>
+		<div id="tabs-2">
+			<div id="targetAud">
+			</div>
+		</div>
+	</div>
+	
 	<script src="jquery-2.1.0.min.js">
 	</script>
 	<script src="jstorage.min.js">
 	</script>
 	<script src="jstorage.zapomni.js">
+	</script>
+	<script src="jquery-ui/jquery-ui.min.js">
 	</script>
 	<script src="chas-lib.min.js">
 	</script>
