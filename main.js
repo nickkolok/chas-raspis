@@ -121,25 +121,28 @@ var dni=[
 
 function countTable(zagol,p1,p2,target,ugolnazv){
 
+	var extLeftColumns=2;
+	var extTopRows=1;
 	var targetTable=document.createElement("table");
 	var groups=base.getVariety(zagol);
-	var th=(ugolnazv.vTag('td')+groups.join('</th><th>').vTag('th')).vTag('tr');
+	var th=(''.vTag('th')+ugolnazv.vTag('th')+groups.join('</th><th>').vTag('th')).vTag('tr');
 	var maintable=[];
 	var kolvoParVDen=pary.length;
-	var kolvoPar=kolvoParVDen*6*2;
+	var kolvoPar=kolvoParVDen*dni.length*2;
 	var kolvoGroups=groups.length;
 	var otobrStroki=[];
 	for(var i=0;i<kolvoPar;i++){
 		maintable[i]=[
-			pary[((i-1)/2).round()%kolvoParVDen].bold()
-			];
-		maintable[i].length=kolvoGroups+1;
+			!(i%(2*kolvoParVDen))  ?  dni[i/(2*kolvoParVDen)].split('').join('<br/>')  :'',
+			pary[((i-1)/2).round()%kolvoParVDen].bold(),
+		];
+		maintable[i].length=kolvoGroups+extLeftColumns;
 	}
 	var groupsindex={};
-	var nagr=['Нагрузка, ч/нед'];
+	var nagr=['','Нагрузка, ч/нед'];
 	for(var gi=0;gi<kolvoGroups;gi++){
 		groupsindex[groups[gi]]=gi;
-		nagr[gi+1]=0;
+		nagr[gi+extLeftColumns]=0;
 	}
 
 	var kolvoBase=base.length;
@@ -147,9 +150,9 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
 		for(var g=0;g<baseElem.grp.length;g++){
-			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2][groupsindex[baseElem[zagol][g]]+1]=
+			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2][groupsindex[baseElem[zagol][g]]+extLeftColumns]=
 				[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
-			nagr[groupsindex[baseElem[zagol][g]]+1]++;
+			nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
 			otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
 		}
 
@@ -169,11 +172,11 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	var tablemap=[];
 	var trs=targetTable.getElementsByTagName('tr');
 	for(var i=0;i<kolvoPar;i++){
-		tablemap[i]=trs[i+1].getElementsByTagName('td');
+		tablemap[i]=trs[i+extTopRows].getElementsByTagName('td');
 	}
 
 	for(var i=0;i<kolvoPar;i++)
-		for(var j=0;j<kolvoGroups+1;j++)
+		for(var j=0;j<kolvoGroups+extLeftColumns;j++)
 			if(tablemap[i][j].innerHTML===''){
 				tablemap[i][j].innerHTML='&nbsp;';
 				tablemap[i][j].className="empty";
@@ -181,7 +184,7 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 
 	for(var i=0;i<kolvoPar;i++){
 		var elemPerv=0;
-		for(var j=2;j<kolvoGroups+1;j++){
+		for(var j=1+extLeftColumns;j<kolvoGroups+extLeftColumns;j++){
 			if(tablemap[i][j].innerHTML==tablemap[i][j-1].innerHTML && tablemap[i][j].innerHTML!='&nbsp;'){
 				if(elemPerv===0){
 					elemPerv=tablemap[i][j-1];
@@ -194,20 +197,35 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 			}
 		}
 	}
+	var rowspandni=[];
 
 	for(var i=0;i<kolvoPar;i+=2){
-		for(var j=0;j<kolvoGroups+1;j++){
+		for(var j=extLeftColumns-1;j<kolvoGroups+extLeftColumns;j++){
 			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML){
 				$(tablemap[i][j]).attr("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
 		}	
 		if(otobrStroki[(i/2).floor()]===undefined && i%(2*kolvoParVDen) && (i+1)%(2*kolvoParVDen) ){
+//			tablemap[i][1].parentNode.style.backgroundColor="pink";
+//			tablemap[i+1][1].parentNode.style.backgroundColor="pink";
 			tablemap[i][1].parentNode.style.display="none";
-			tablemap[i-1][1].parentNode.style.display="none";
+			tablemap[i+1][1].parentNode.style.display="none";
+			safeinc(rowspandni,(i/2/kolvoParVDen).floor());
+//			tablemap[i][1].parentNode.style.height="0px";
+//			tablemap[i][1].parentNode.style.overflow="hidden";
+//			tablemap[i+1][1].parentNode.style.height="0px";
+//			tablemap[i+1][1].parentNode.style.overflow="hidden";
 		}
-
 	}
+	for(var i=0;i<kolvoPar;i++){
+		if(i%(2*kolvoParVDen)){
+			tablemap[i][0].style.display='none';
+		}else{
+			$(tablemap[i][0]).attr("rowspan",2*(kolvoParVDen-rowspandni[i/2/kolvoParVDen]));
+		}
+	}
+
 }
 
 function build(){
