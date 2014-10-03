@@ -9,31 +9,48 @@
 	<link type="text/css" href="jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 	<link type="text/css" href="jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" />
 	<link type="text/css" href="jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" />
+	<link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css">
 </head>
 <body onload="$.jStorage.zagrData()" onunload="$.jStorage.sohrData()">
-	<button onclick="build();">
-		Построить таблицы
-	</button>
-	<div id="target">
-	</div>
 	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-1">По учебным группам</a></li>
 			<li><a href="#tabs-2">По аудиториям</a></li>
 			<li><a href="#tabs-data">Исходные данные</a></li>
+			<li><a href="#tabs-diagr">Сводные диаграммы</a></li>
 		</ul>
 		<div id="tabs-1">
-			<div id="targetGroups">
+			<div id="targetGroups" class="scrollable-x">
 			</div>
 		</div>
 		<div id="tabs-2">
-			<div id="targetAud">
+			<div id="targetAud" class="scrollable-x">
 			</div>
 		</div>
 		<div id="tabs-data">
 			Данные:
 			<br/>
 			<textarea id="textbase" data-jstorage-id="textbase" rows="6" cols="128"></textarea>
+			<br/>
+			<button onclick="build();">
+				Построить таблицы
+			</button>
+		</div>
+		<div id="tabs-diagr">
+			<button onclick="diagr();">
+				Построить диаграммы
+			</button>
+			<div>
+				<h2>Количество часов по парам:</h2>
+				<div id="jqplot-pary">
+				</div>
+				<h2>Количество часов по дням недели:</h2>
+				<div id="jqplot-dni">
+				</div>
+				<h2>Количество часов по аудиториям:</h2>
+				<div id="jqplot-aud">
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -44,6 +61,12 @@
 	<script src="jstorage.zapomni.js">
 	</script>
 	<script src="jquery-ui/jquery-ui.min.js">
+	</script>
+	<script src="jqplot/jquery.jqplot.min.js">
+	</script>
+	<script src="jqplot/plugins/jqplot.barRenderer.min.js">
+	</script>
+	<script src="jqplot/plugins/jqplot.categoryAxisRenderer.min.js">
 	</script>
 	<script src="chas-lib.min.js">
 	</script>

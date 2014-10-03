@@ -1,3 +1,5 @@
+'use strict';
+
 Array.prototype.getVariety=function(prop){
 	var len=this.length;
 	var rez=[];
@@ -20,7 +22,7 @@ String.prototype.multiply=function(n){
 	return rez;
 }
 
-
+/*
 var base=[
 	{aud:[319], grp:[1.1,1.2], den: 2, chzn: 0, para: 1, prep: ["Иванов И. И."], predm: "ИМХО"},
 	{aud:[319], grp:[1.1,1.2], den: 2, chzn: 1, para: 1, prep: ["Иванов И. И."], predm: "ИМХО"},
@@ -28,6 +30,67 @@ var base=[
 	{aud:[308], grp:[1.2], den: 2, chzn: 1, para: 2, prep: ["Петров И. И."], predm: "Теория криптовалют"},
 	{aud:[319,320],grp:[1.1,1.2,1.3], den:1, chzn:0,para:0, prep:['Мячиков Ё.Ё.','Гантелькин Щ.Щ.'],predm:"Физкультура"}
 ];
+*/
+var base=[
+	{den: 0, para: 1, chzn: 0, aud:[319], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 1, chzn: 1, aud:[325], grp:[1.3,2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 2, chzn: 0, aud:[480], grp:[1.1,1.2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 2, chzn: 2, aud:[315], grp:[1.3,2], prep: ["Орешина"], predm: "Английский язык"},
+	{den: 0, para: 3, chzn: 2, aud:[306], grp:[1.1,1.2,1.3], prep: ["Завгородний"], predm: "Технологии программирования"},
+	{den: 0, para: 4, chzn: 2, aud:[300,"Борц. зал"], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Попов","Стрельникова"], predm: "Физкультура"},
+
+	{den: 1, para: 2, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 1, para: 3, chzn: 2, aud:[305], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 1, para: 3, chzn: 2, aud:[436], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 1, para: 3, chzn: 2, aud:[227], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
+	{den: 1, para: 4, chzn: 2, aud:[319], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 1, para: 4, chzn: 2, aud:[436], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 1, para: 4, chzn: 2, aud:[321], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
+
+	{den: 2, para: 0, chzn: 2, aud:[314], grp:[1.1,1.2], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 0, chzn: 2, aud:["501П"], grp:[1.3], prep: ["Ушаков"], predm: "ТП"},
+	{den: 2, para: 1, chzn: 2, aud:["501П"], grp:[1.2], prep: ["Ушаков"], predm: "ТП"},
+	{den: 2, para: 1, chzn: 0, aud:[359], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 1, chzn: 1, aud:[365], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 1, chzn: 0, aud:[310], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 2, para: 1, chzn: 1, aud:[318], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 2, para: 2, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
+
+	{den: 3, para: 0, chzn: 2, aud:[333], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 3, para: 1, chzn: 2, aud:[325], grp:[1.1], prep: ["Кочетова"], predm: "Английский язык"},
+	{den: 3, para: 1, chzn: 2, aud:["?"], grp:[1.2], prep: ["Орешина"], predm: "Английский язык"},
+	{den: 3, para: 1, chzn: 2, aud:[333], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 3, para: 2, chzn: 2, aud:[430], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
+	{den: 3, para: 3, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "фак. Доп. главы диф. ур-й"},
+	{den: 3, para: 4, chzn: 2, aud:[310], grp:[1.1], prep: ["Завгородний"], predm: "ТП"},
+	{den: 3, para: 4, chzn: 2, aud:[325], grp:[1.3,2,3.3,4.2], prep: ["Бенедиктова"], predm: "Немецкий язык"},
+
+	{den: 4, para: 1, chzn: 2, aud:[306], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
+	{den: 4, para: 2, chzn: 2, aud:[437], grp:[1.1,1.2,1.3], prep: ["Гликлих"], predm: "Диф. геометрия и топология"},
+	{den: 4, para: 3, chzn: 0, aud:[333], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 4, para: 3, chzn: 1, aud:[340], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 4, para: 3, chzn: 0, aud:[343], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 4, para: 3, chzn: 1, aud:[436], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 4, para: 3, chzn: 2, aud:["504П"], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
+	{den: 4, para: 4, chzn: 2, aud:[227], grp:[1.1,1.2,1.3], prep: ["Звягин"], predm: "Современные методы геометрии и анализа"},
+
+];
+
+function prepareBase(){
+	var baselen=base.length;
+	var baseelem;
+	var dubl;
+	for(var i=0;i<baselen;i++){
+		baseelem=base[i];
+		if(baseelem.chzn==2){
+			baseelem.chzn=4;
+			dubl=baseelem.clone();
+			dubl.chzn=1;
+			base.push(dubl);
+		}
+	}
+}
+prepareBase();
 
 var pary=[
 	"8:00-9:35",
@@ -40,6 +103,14 @@ var pary=[
 	"20:10-21:30",
 ];
 
+var dni=[
+	"Понедельник",
+	"Вторник",
+	"Среда",
+	"Четверг",
+	"Пятница",
+	"Суббота",
+];
 
 function countTable(zagol,p1,p2,target,ugolnazv){
 
@@ -50,6 +121,7 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	var kolvoParVDen=pary.length;
 	var kolvoPar=kolvoParVDen*6*2;
 	var kolvoGroups=groups.length;
+	var otobrStroki=[];
 	for(var i=0;i<kolvoPar;i++){
 		maintable[i]=[
 			pary[((i-1)/2).round()%kolvoParVDen].bold()
@@ -68,12 +140,14 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
 		for(var g=0;g<baseElem.grp.length;g++){
-			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn][groupsindex[baseElem[zagol][g]]+1]=
+			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2][groupsindex[baseElem[zagol][g]]+1]=
 				[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
 			nagr[groupsindex[baseElem[zagol][g]]+1]++;
+			otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
 		}
 		
 	}
+	console.log(otobrStroki);
 	var maintableCopy=maintable.clone();
 	for(var itr=0;itr<kolvoPar;itr++){
 		maintable[itr]=maintable[itr].join('</td><td>').vTag('td');
@@ -115,21 +189,32 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 		}
 	}
 
-
+	console.log(otobrStroki)
 	for(var i=0;i<kolvoPar;i+=2){
 		for(var j=0;j<kolvoGroups+1;j++){
 			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML){
 				$(tablemap[i][j]).attr("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
+		}	
+		if(otobrStroki[(i/2).floor()]===undefined && i%(2*kolvoParVDen) && (i+1)%(2*kolvoParVDen) ){
+			console.log(i);
+//			tablemap[i][1].parentNode.style.backgroundColor="pink";
+//			tablemap[i+1][1].parentNode.style.backgroundColor="pink";
+			tablemap[i][1].parentNode.style.display="none";
+			tablemap[i-1][1].parentNode.style.display="none";
 		}
+
 	}
 }
 
 function build(){
-	$('#target').html('');
+	$('#targetGroups')[0].innerHTML='';
+	$('#targetAud')[0].innerHTML='';
+	prepareBase();
 	try{
 		base=JSON.parse($('#textbase').val());
+		prepareBase();
 	}catch(e){
 		alert('Ошибка в записи базы');
 	}
@@ -138,7 +223,95 @@ function build(){
 //	countTable("prep","grp","aud");
 }
 
+function diagr(){
+	prepareBase();
+	var baselen=base.length;
+	var statdni=[];
+	var statpary=[];
+	var stataud={};
+	var baseelem;
+	for(var i=0;i<baselen;i++){
+		baseelem=base[i];
+		if(!statpary[baseelem.para])
+			statpary[baseelem.para]=1;
+		else
+			statpary[baseelem.para]++;
+
+		if(!statdni[baseelem.den])
+			statdni[baseelem.den]=1;
+		else
+			statdni[baseelem.den]++;
+		for(var j=0;j<baseelem.aud.length;j++){
+			if(!stataud[baseelem.aud[j]])
+				stataud[baseelem.aud[j]]=1;
+			else
+				stataud[baseelem.aud[j]]++;
+		}
+	}
+	var stataudmas=[];
+	for(var chto in stataud){
+		stataudmas.push([stataud[chto],chto]);
+	}
+	stataudmas=stataudmas.sort();
+	stataudmas=stataudmas.T();
+	
+	$.jqplot('jqplot-pary', [statpary],{
+			axes:{
+				xaxis:{
+					ticks:pary,
+					renderer:$.jqplot.CategoryAxisRenderer,
+				},
+				yaxis:{
+					min:0,
+				}
+			},
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
+				rendererOptions: { barMargin: 15 },
+			}
+		}
+	);
+
+	$.jqplot('jqplot-dni', [statdni],{
+			axes:{
+				xaxis:{
+					ticks:dni,
+					renderer:$.jqplot.CategoryAxisRenderer,
+				},
+				yaxis:{
+					min:0,
+				}
+			},
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
+				rendererOptions: { barMargin: 15 },
+			}
+		}
+	);
+
+	$.jqplot('jqplot-aud', [stataudmas[0]],{
+			axes:{
+				xaxis:{
+					ticks:stataudmas[1],
+					renderer:$.jqplot.CategoryAxisRenderer,
+				},
+				yaxis:{
+					min:0,
+				}
+			},
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
+				rendererOptions: { barMargin: 15 },
+			}
+		}
+	);
+}
+
+
 $('#textbase').val(JSON.stringify(base));
 $(function(){
   $("#tabs").tabs();
+  build();
 });
+
+
