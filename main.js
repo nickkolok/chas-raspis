@@ -22,6 +22,13 @@ String.prototype.multiply=function(n){
 	return rez;
 }
 
+function safeinc(obj,prop){
+	if(!obj[prop])
+		obj[prop]=1;
+	else
+		obj[prop]++;
+}
+
 /*
 var base=[
 	{aud:[319], grp:[1.1,1.2], den: 2, chzn: 0, para: 1, prep: ["Иванов И. И."], predm: "ИМХО"},
@@ -237,7 +244,6 @@ function jqplotBarRender(target,uroven,ticks,ymin){
 	);
 }
 
-
 function diagr(){
 	prepareBase();
 	var baselen=base.length;
@@ -254,25 +260,12 @@ function diagr(){
 	}
 	for(var i=0;i<baselen;i++){
 		baseelem=base[i];
-		if(!statpary[baseelem.para])
-			statpary[baseelem.para]=1;
-		else
-			statpary[baseelem.para]++;
+		safeinc(statpary,baseelem.para);
+		safeinc(statdni ,baseelem.den );
 
-		if(!statdni[baseelem.den])
-			statdni[baseelem.den]=1;
-		else
-			statdni[baseelem.den]++;
 		for(var j=0;j<baseelem.aud.length;j++){
-			if(!stataud[baseelem.aud[j]])
-				stataud[baseelem.aud[j]]=1;
-			else
-				stataud[baseelem.aud[j]]++;
-
-			if(!statpodnyam[baseelem.den][baseelem.aud[j]])
-				statpodnyam[baseelem.den][baseelem.aud[j]]=1;
-			else
-				statpodnyam[baseelem.den][baseelem.aud[j]]++;
+			safeinc(stataud,baseelem.aud[j] );
+			safeinc(statpodnyam[baseelem.den],baseelem.aud[j] );
 		}
 	}
 
@@ -286,56 +279,10 @@ function diagr(){
 	stataudmas=stataudmas.sort();
 	stataudmas=stataudmas.T();
 	
-	$.jqplot('jqplot-pary', [statpary],{
-			axes:{
-				xaxis:{
-					ticks:pary,
-					renderer:$.jqplot.CategoryAxisRenderer,
-				},
-				yaxis:{
-					min:0,
-				}
-			},
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: { barMargin: 15 },
-			}
-		}
-	);
+	jqplotBarRender('jqplot-pary',statpary,pary,0);
+	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
+	jqplotBarRender('jqplot-aud' ,stataudmas[0],stataudmas[1],0);
 
-	$.jqplot('jqplot-dni', [statdni],{
-			axes:{
-				xaxis:{
-					ticks:dni,
-					renderer:$.jqplot.CategoryAxisRenderer,
-				},
-				yaxis:{
-					min:0,
-				}
-			},
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: { barMargin: 15 },
-			}
-		}
-	);
-
-	$.jqplot('jqplot-aud', [stataudmas[0]],{
-			axes:{
-				xaxis:{
-					ticks:stataudmas[1],
-					renderer:$.jqplot.CategoryAxisRenderer,
-				},
-				yaxis:{
-					min:0,
-				}
-			},
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: { barMargin: 15 },
-			}
-		}
-	);
 	var podnyam=$('#jqplot-pary-po-dnyam')[0];
 	for(var i=0;i<kolvoDni;i++){
 		statpodnyammas[i]=statpodnyammas[i].sort();
@@ -346,31 +293,12 @@ function diagr(){
 		var targdiv=document.createElement('div');
 		targdiv.id='jqplot-podnyam-'+dni[i];
 		podnyam.appendChild(targdiv);
-		$.jqplot('jqplot-podnyam-'+dni[i], [statpodnyammas[i][0]],{
-				axes:{
-					xaxis:{
-						ticks:statpodnyammas[i][1],
-						renderer:$.jqplot.CategoryAxisRenderer,
-					},
-					yaxis:{
-						min:0,
-					}
-				},
-				seriesDefaults: {
-					renderer: $.jqplot.BarRenderer,
-					rendererOptions: { barMargin: 15 },
-				}
-			}
-		);
-
+		jqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
 }
 
-
 $('#textbase').val(JSON.stringify(base));
 $(function(){
-  $("#tabs").tabs();
-  build();
+	$("#tabs").tabs();
+	build();
 });
-
-
