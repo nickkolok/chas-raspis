@@ -22,6 +22,50 @@ String.prototype.multiply=function(n){
 	return rez;
 }
 
+Array.prototype.sortBy=function(prop){
+	return this.sort(function(a,b){
+		return compareObjects(a,b,prop);
+	});
+	
+}
+
+function compareObjects(a,b,propList){
+	var len=propList.length;
+	for(var i=0;i<len;i++){
+		if(a[propList[i]]<b[propList[i]])
+			return -1;
+		else if (a[propList[i]]>b[propList[i]])
+			return 1;
+	}
+	return 0;
+}
+
+Array.prototype.delDublByProp=function(prop){
+	var rez=this.slice();
+	rez=rez.sortBy(prop);
+	var len=rez.length;
+	var p=prop.length;
+	for(var i=1;i<len;i++){
+		if(!compareObjects(rez[i-1],rez[i],prop)){
+			rez.splice(i,1);
+			len--;
+		}
+	}
+	return rez;
+}
+
+Array.prototype.sortNumeric=function(){
+	return this.sort(function(a,b){
+		return a-b;
+	});
+}
+
+Array.prototype.sortNumericArr=function(){
+	return this.sort(function(a,b){
+		return a[0]-b[0];
+	});
+}
+
 function safeinc(obj,prop){
 	if(!obj[prop])
 		obj[prop]=1;
@@ -29,15 +73,6 @@ function safeinc(obj,prop){
 		obj[prop]++;
 }
 
-/*
-var base=[
-	{aud:[319], grp:[1.1,1.2], den: 2, chzn: 0, para: 1, prep: ["Иванов И. И."], predm: "ИМХО"},
-	{aud:[319], grp:[1.1,1.2], den: 2, chzn: 1, para: 1, prep: ["Иванов И. И."], predm: "ИМХО"},
-	{aud:[309], grp:[1.1], den: 2, chzn: 0, para: 2, prep: ["Петров И. И."], predm: "Теория криптовалют"},
-	{aud:[308], grp:[1.2], den: 2, chzn: 1, para: 2, prep: ["Петров И. И."], predm: "Теория криптовалют"},
-	{aud:[319,320],grp:[1.1,1.2,1.3], den:1, chzn:0,para:0, prep:['Мячиков Ё.Ё.','Гантелькин Щ.Щ.'],predm:"Физкультура"}
-];
-*/
 var base=[
 	{den: 0, para: 1, chzn: 0, aud:[319], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Яреско"], predm: "Экономика"},
 	{den: 0, para: 1, chzn: 1, aud:[325], grp:[1.3,2], prep: ["Яреско"], predm: "Экономика"},
@@ -96,6 +131,7 @@ function prepareBase(){
 			base.push(dubl);
 		}
 	}
+	base=base.delDublByProp(["den",'para','chzn','aud','grp','prep']);
 }
 prepareBase();
 
@@ -232,15 +268,8 @@ function build(){
 	$('#targetGroups')[0].innerHTML='';
 	$('#targetAud')[0].innerHTML='';
 	prepareBase();
-/*	try{
-		base=JSON.parse($('#textbase').val());
-		prepareBase();
-	}catch(e){
-		alert('Ошибка в записи базы');
-	}
-*/	countTable("grp","prep","aud",'targetGroups','Группа');
+	countTable("grp","prep","aud",'targetGroups','Группа');
 	countTable("aud","prep","grp",'targetAud','Аудитория');
-//	countTable("prep","grp","aud");
 }
 
 function jqplotBarRender(target,uroven,ticks,ymin){
@@ -295,7 +324,7 @@ function diagr(){
 			statpodnyammas[i].push([statpodnyam[i][chto],chto]);
 		}
 	}
-	stataudmas=stataudmas.sort();
+	stataudmas=stataudmas.sortNumericArr();
 	stataudmas=stataudmas.T();
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
@@ -304,7 +333,7 @@ function diagr(){
 
 	var podnyam=$('#jqplot-pary-po-dnyam')[0];
 	for(var i=0;i<kolvoDni;i++){
-		statpodnyammas[i]=statpodnyammas[i].sort();
+		statpodnyammas[i]=statpodnyammas[i].sortNumericArr();
 		statpodnyammas[i]=statpodnyammas[i].T();
 		var h3=document.createElement('h3');
 		h3.innerHTML=dni[i];
