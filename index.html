@@ -18,6 +18,7 @@
 			<li><a href="#tabs-2">По аудиториям</a></li>
 			<li><a href="#tabs-data">Сохранение и загрузка</a></li>
 			<li><a href="#tabs-diagr">Сводные диаграммы</a></li>
+			<li><a href="#tabs-edit">Редактировать</a></li>
 		</ul>
 		<div id="tabs-1">
 			<div id="targetGroups" class="scrollable-x">
@@ -60,8 +61,34 @@
 				</div>
 			</div>
 		</div>
+		<div id="tabs-edit">
+			Несколько групп, преподавателей или аудиторий вводятся через запятую без пробелов.
+			Чтобы  удалить пару, просто очистите информацию об аудитории, преподавателе или группе и нажмите "Применить изменения".
+			Чтобы добавить пару, просто заполните пустую строку (пара №0) и нажмите "Применить изменения".
+			<button onclick="baseSaveEdited();">Применить изменения</button>
+			<table>
+				<thead>
+					<tr>
+						<td>№</td>
+						<td>День недели</td>
+						<td>Пара</td>
+						<td>Чётность</td>
+						<td>Аудитория</td>
+						<td>Группа</td>
+						<td>Преподаватель</td>
+						<td>Предмет</td>
+						<td>Конфликты (если есть)</td>
+					</tr>
+				</thead>
+				<tbody  id="edit-target">
+				</tbody>
+			</table>
+			<button onclick="baseSaveEdited();">Применить изменения</button>
+		</div>
 	</div>
 	
+	<script src="chas-lib.min.js">
+	</script>
 	<script src="jquery-2.1.0.min.js">
 	</script>
 	<script src="jstorage.min.js">
@@ -75,8 +102,6 @@
 	<script src="jqplot/plugins/jqplot.barRenderer.min.js">
 	</script>
 	<script src="jqplot/plugins/jqplot.categoryAxisRenderer.min.js">
-	</script>
-	<script src="chas-lib.min.js">
 	</script>
 	<script src="main.js">
 	</script>

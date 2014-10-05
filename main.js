@@ -73,6 +73,25 @@ function safeinc(obj,prop){
 		obj[prop]++;
 }
 
+function makeSelect(opts,vals,selected,id){
+	var rez='';
+	var len=opts.length;
+	for(var i=0;i<len;i++){
+		rez+='<option value="'+vals[i]+'"'+'selected'.esli(i==selected)+'>'+opts[i]+'</option>';
+	}
+	return rez.vTag('select','id="'+id+'"');
+}
+
+function makeInput(val,id){
+	return '<input id="'+id+'" value="'+val+'"/>';
+}
+
+function setProps(obj,props){
+	for(var chto in props){
+		obj[chto]=props[chto];
+	}
+}
+
 var base=[
 	{den: 0, para: 1, chzn: 0, aud:[319], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Яреско"], predm: "Экономика"},
 	{den: 0, para: 1, chzn: 1, aud:[325], grp:[1.3,2], prep: ["Яреско"], predm: "Экономика"},
@@ -115,7 +134,6 @@ var base=[
 	{den: 4, para: 3, chzn: 1, aud:[436], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
 	{den: 4, para: 3, chzn: 2, aud:["504П"], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
 	{den: 4, para: 4, chzn: 2, aud:[227], grp:[1.1,1.2,1.3], prep: ["Звягин"], predm: "Современные методы геометрии и анализа"},
-
 ];
 
 function prepareBase(){
@@ -124,8 +142,14 @@ function prepareBase(){
 	var dubl;
 	for(var i=0;i<baselen;i++){
 		baseelem=base[i];
+		if(baseelem.aud=='' || baseelem.grp=='' || baseelem.prep==''){
+			base.splice(i,1);
+			baselen--;
+			i--;
+			continue;
+		}
 		if(baseelem.chzn==2){
-			baseelem.chzn=4;
+			baseelem.chzn=0;
 			dubl=baseelem.clone();
 			dubl.chzn=1;
 			base.push(dubl);
@@ -186,7 +210,8 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
 		for(var g=0;g<baseElem.grp.length;g++){
-			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2][groupsindex[baseElem[zagol][g]]+extLeftColumns]=
+			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
+				[groupsindex[baseElem[zagol][g]]+extLeftColumns]=
 				[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
 			nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
 			otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
@@ -368,10 +393,8 @@ function baseLoad(){
 			}
          };
       })(f);
-
       reader.readAsText(f);
 }
-
 
 function baseSave(){
 	var blob = new Blob([JSON.stringify(base)], {
@@ -386,8 +409,59 @@ function baseSave(){
 }
 baseSave();
 
+function baseSaveEdited(){
+	var len=$('#edit-target > tr').length;
+	for(var i=0;i<len;i++){
+		setProps(base[i],{
+			den  :1*$('#den'  +i).val(),
+			para :1*$('#para' +i).val(),
+			chzn :1*$('#chzn' +i).val(),
+			aud  :$('#aud'  +i).val().split(','),
+			grp  :$('#grp'  +i).val().split(','),
+			prep :$('#prep' +i).val().split(','),
+			predm:$('#predm'+i).val(),
+		});
+	}
+	prepareBase();
+	baseSave();
+	build();
+	buildEdit();
+}
+
+function buildEdit(){
+	var rez='';
+	var elem;
+	var commonVals=[0,1,2,3,4,5,6,7,8,9];
+	var cz=['Числитель','Знаменатель','Не зависит'];
+	base=[{
+		den:0,
+		para:0,
+		chzn:0,
+		aud:'',
+		grp:'',
+		prep:'',
+		predm:'',
+	}].concat(base);
+	var baselen=base.length;
+	for(var i=0;i<baselen;i++){
+		elem=base[i];
+		rez+=[
+			(''+i).vTag('span','id="yakor'+i+'"'),
+			makeSelect(dni ,commonVals,elem.den ,"den" +i),
+			makeSelect(pary,commonVals,elem.para,"para"+i),
+			makeSelect(cz  ,commonVals,elem.chzn,"chzn"+i),
+			makeInput(elem.aud,"aud"+i),
+			makeInput(elem.grp,"grp"+i),
+			makeInput(elem.prep,"prep"+i),
+			makeInput(elem.predm,"predm"+i),
+		].tr();	
+	}
+	$('#edit-target').html(rez);
+}
+
 $('#textbase').val(JSON.stringify(base));
 $(function(){
 	$("#tabs").tabs();
 	build();
+	buildEdit();
 });
