@@ -93,47 +93,47 @@ function setProps(obj,props){
 }
 
 var base=[
-	{den: 0, para: 1, chzn: 0, aud:[319], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Яреско"], predm: "Экономика"},
-	{den: 0, para: 1, chzn: 1, aud:[325], grp:[1.3,2], prep: ["Яреско"], predm: "Экономика"},
-	{den: 0, para: 2, chzn: 0, aud:[480], grp:[1.1,1.2], prep: ["Яреско"], predm: "Экономика"},
-	{den: 0, para: 2, chzn: 2, aud:[315], grp:[1.3,2], prep: ["Орешина"], predm: "Английский язык"},
-	{den: 0, para: 3, chzn: 2, aud:[306], grp:[1.1,1.2,1.3], prep: ["Завгородний"], predm: "Технологии программирования"},
-	{den: 0, para: 4, chzn: 2, aud:[300,"Борц. зал"], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Попов","Стрельникова"], predm: "Физкультура"},
+	{den: 0, para: 1, chzn: 0, aud:["1_319"], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 1, chzn: 1, aud:["1_325"], grp:[1.3,2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 2, chzn: 0, aud:["1а_480"], grp:[1.1,1.2], prep: ["Яреско"], predm: "Экономика"},
+	{den: 0, para: 2, chzn: 2, aud:["1_315"], grp:[1.3,2], prep: ["Орешина"], predm: "Английский язык"},
+	{den: 0, para: 3, chzn: 2, aud:["1_306"], grp:[1.1,1.2,1.3], prep: ["Завгородний"], predm: "Технологии программирования"},
+	{den: 0, para: 4, chzn: 2, aud:["1_Спортзал","2_Борц. зал"], grp:[1.1,1.2,1.3,2,3.1,3.2,3.3,4.1,4.2], prep: ["Попов","Стрельникова"], predm: "Физкультура"},
 
-	{den: 1, para: 2, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
-	{den: 1, para: 3, chzn: 2, aud:[305], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
-	{den: 1, para: 3, chzn: 2, aud:[436], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
-	{den: 1, para: 3, chzn: 2, aud:[227], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
-	{den: 1, para: 4, chzn: 2, aud:[319], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
-	{den: 1, para: 4, chzn: 2, aud:[436], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
-	{den: 1, para: 4, chzn: 2, aud:[321], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 1, para: 2, chzn: 2, aud:["1_305"], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 1, para: 3, chzn: 2, aud:["1_305"], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 1, para: 3, chzn: 2, aud:["1_436"], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 1, para: 3, chzn: 2, aud:["1_227"], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
+	{den: 1, para: 4, chzn: 2, aud:["1_319"], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 1, para: 4, chzn: 2, aud:["1_436"], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 1, para: 4, chzn: 2, aud:["1_321"], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
 
-	{den: 2, para: 0, chzn: 2, aud:[314], grp:[1.1,1.2], prep: ["Залыгаева"], predm: "Диф. геометрия"},
-	{den: 2, para: 0, chzn: 2, aud:["501П"], grp:[1.3], prep: ["Ушаков"], predm: "ТП"},
-	{den: 2, para: 1, chzn: 2, aud:["501П"], grp:[1.2], prep: ["Ушаков"], predm: "ТП"},
-	{den: 2, para: 1, chzn: 0, aud:[359], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
-	{den: 2, para: 1, chzn: 1, aud:[365], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
-	{den: 2, para: 1, chzn: 0, aud:[310], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
-	{den: 2, para: 1, chzn: 1, aud:[318], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
-	{den: 2, para: 2, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 2, para: 0, chzn: 2, aud:["1_314"], grp:[1.1,1.2], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 0, chzn: 2, aud:["1_501П"], grp:[1.3], prep: ["Ушаков"], predm: "ТП"},
+	{den: 2, para: 1, chzn: 2, aud:["1б_501П"], grp:[1.2], prep: ["Ушаков"], predm: "ТП"},
+	{den: 2, para: 1, chzn: 0, aud:["1_359"], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 1, chzn: 1, aud:["1_365"], grp:[1.3], prep: ["Залыгаева"], predm: "Диф. геометрия"},
+	{den: 2, para: 1, chzn: 0, aud:["1_310"], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 2, para: 1, chzn: 1, aud:["1_318"], grp:[1.1], prep: ["Леженина"], predm: "Диф. ур-я"},
+	{den: 2, para: 2, chzn: 2, aud:["1_305"], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "Диф. ур-я"},
 
-	{den: 3, para: 0, chzn: 2, aud:[333], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
-	{den: 3, para: 1, chzn: 2, aud:[325], grp:[1.1], prep: ["Кочетова"], predm: "Английский язык"},
+	{den: 3, para: 0, chzn: 2, aud:["1_333"], grp:[1.2], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 3, para: 1, chzn: 2, aud:["1_325"], grp:[1.1], prep: ["Кочетова"], predm: "Английский язык"},
 	{den: 3, para: 1, chzn: 2, aud:["?"], grp:[1.2], prep: ["Орешина"], predm: "Английский язык"},
-	{den: 3, para: 1, chzn: 2, aud:[333], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
-	{den: 3, para: 2, chzn: 2, aud:[430], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
-	{den: 3, para: 3, chzn: 2, aud:[305], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "фак. Доп. главы диф. ур-й"},
-	{den: 3, para: 4, chzn: 2, aud:[310], grp:[1.1], prep: ["Завгородний"], predm: "ТП"},
-	{den: 3, para: 4, chzn: 2, aud:[325], grp:[1.3,2,3.3,4.2], prep: ["Бенедиктова"], predm: "Немецкий язык"},
+	{den: 3, para: 1, chzn: 2, aud:["1_333"], grp:[1.3], prep: ["Бахтина"], predm: "Мат. анализ"},
+	{den: 3, para: 2, chzn: 2, aud:["1_430"], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
+	{den: 3, para: 3, chzn: 2, aud:["1_305"], grp:[1.1,1.2,1.3], prep: ["Леженина"], predm: "фак. Доп. главы диф. ур-й"},
+	{den: 3, para: 4, chzn: 2, aud:["1_310"], grp:[1.1], prep: ["Завгородний"], predm: "ТП"},
+	{den: 3, para: 4, chzn: 2, aud:["1_325"], grp:[1.3,2,3.3,4.2], prep: ["Бенедиктова"], predm: "Немецкий язык"},
 
-	{den: 4, para: 1, chzn: 2, aud:[306], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
-	{den: 4, para: 2, chzn: 2, aud:[437], grp:[1.1,1.2,1.3], prep: ["Гликлих"], predm: "Диф. геометрия и топология"},
-	{den: 4, para: 3, chzn: 0, aud:[333], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
-	{den: 4, para: 3, chzn: 1, aud:[340], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
-	{den: 4, para: 3, chzn: 0, aud:[343], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
-	{den: 4, para: 3, chzn: 1, aud:[436], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
-	{den: 4, para: 3, chzn: 2, aud:["504П"], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
-	{den: 4, para: 4, chzn: 2, aud:[227], grp:[1.1,1.2,1.3], prep: ["Звягин"], predm: "Современные методы геометрии и анализа"},
+	{den: 4, para: 1, chzn: 2, aud:["1_306"], grp:[1.1,1.2,1.3], prep: ["Курина"], predm: "Мат. анализ"},
+	{den: 4, para: 2, chzn: 2, aud:["1_437"], grp:[1.1,1.2,1.3], prep: ["Гликлих"], predm: "Диф. геометрия и топология"},
+	{den: 4, para: 3, chzn: 0, aud:["1_333"], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 4, para: 3, chzn: 1, aud:["1_340"], grp:[1.1], prep: ["Шабров"], predm: "Мат. анализ"},
+	{den: 4, para: 3, chzn: 0, aud:["1_343"], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 4, para: 3, chzn: 1, aud:["1_436"], grp:[1.2], prep: ["Ляпина"], predm: "Диф. ур-я"},
+	{den: 4, para: 3, chzn: 2, aud:["1б_504П"], grp:[1.3], prep: ["Груздьев"], predm: "Диф. ур-я"},
+	{den: 4, para: 4, chzn: 2, aud:["1_227"], grp:[1.1,1.2,1.3], prep: ["Звягин"], predm: "Современные методы геометрии и анализа"},
 ];
 
 function prepareBase(){
@@ -177,6 +177,20 @@ var dni=[
 	"Четверг",
 	"Пятница",
 	"Суббота",
+];
+
+var korpusa=[
+	"1",
+	"1а",
+	"1б",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
 ];
 
 function countTable(zagol,p1,p2,target,ugolnazv){
@@ -298,10 +312,13 @@ function build(){
 }
 
 function jqplotBarRender(target,uroven,ticks,ymin){
+	var newticks=ticks.slice().map(function(elem,index){
+		return '<br/>'.esli(index%2)+elem;
+	});
 	$.jqplot(target, [uroven],{
 			axes:{
 				xaxis:{
-					ticks:ticks,
+					ticks:newticks,
 					renderer:$.jqplot.CategoryAxisRenderer,
 				},
 				yaxis:{
@@ -331,14 +348,29 @@ function diagr(){
 		statpodnyam[i]=[];
 		statpodnyammas[i]=[];
 	}
+	var korp={};
+	var korpval=$('#select-korpusa').val();
+	for(var i=0;i<korpval.length;i++){
+		korp[korpval[i]]=1;
+	}
 	for(var i=0;i<baselen;i++){
 		baseelem=base[i];
-		safeinc(statpary,baseelem.para);
-		safeinc(statdni ,baseelem.den );
-
 		for(var j=0;j<baseelem.aud.length;j++){
-			safeinc(stataud,baseelem.aud[j] );
-			safeinc(statpodnyam[baseelem.den],baseelem.aud[j] );
+			var fl_korp=0;
+			var k=baseelem.aud[j].match(/.*(?=_)/g);
+			if(!k)
+				k=['1'];
+			if(korp[k[0]]){
+				fl_korp=1;
+			}
+			if(fl_korp){
+				safeinc(stataud,baseelem.aud[j] );
+				safeinc(statpodnyam[baseelem.den],baseelem.aud[j] );
+			}
+		}
+		if(fl_korp){
+			safeinc(statpary,baseelem.para);
+			safeinc(statdni ,baseelem.den );
 		}
 	}
 
@@ -351,6 +383,7 @@ function diagr(){
 	}
 	stataudmas=stataudmas.sortNumericArr();
 	stataudmas=stataudmas.T();
+	$('.jqplot-target').attr('width',stataudmas[0].length*50);
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
@@ -458,6 +491,17 @@ function buildEdit(){
 	}
 	$('#edit-target').html(rez);
 }
+
+function createKorpusa(){
+	var rez='';
+
+	for(var i=0;i<korpusa.length;i++){
+		rez+=korpusa[i].vTag('option','selected value="'+korpusa[i]+'"');
+	}
+	$('#select-korpusa').html(rez);
+	$('#select-korpusa').attr('size',korpusa.length);
+}
+createKorpusa();
 
 $('#textbase').val(JSON.stringify(base));
 $(function(){
