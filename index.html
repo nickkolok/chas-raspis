@@ -16,7 +16,7 @@
 		<ul>
 			<li><a href="#tabs-1">По учебным группам</a></li>
 			<li><a href="#tabs-2">По аудиториям</a></li>
-			<li><a href="#tabs-data">Исходные данные</a></li>
+			<li><a href="#tabs-data">Сохранение и загрузка</a></li>
 			<li><a href="#tabs-diagr">Сводные диаграммы</a></li>
 		</ul>
 		<div id="tabs-1">
@@ -28,30 +28,35 @@
 			</div>
 		</div>
 		<div id="tabs-data">
-			Данные:
-			<br/>
-			<textarea id="textbase" data-jstorage-id="textbase" rows="6" cols="128"></textarea>
-			<br/>
-			<button onclick="build();">
-				Построить таблицы
-			</button>
+		<h2>Очистика базы</h2>
+		Это действие нельзя отменить, но можно загрузить сохранённую ранее базу.
+		<button onclick="baseClean();">
+			Очистить
+		</button>
+		<h2>Сохранение базы</h2>
+		База будет сохранена в файл save.json
+		<span id="span-save"></span>
+		<h2>Импорт базы</h2>
+		В расписание будут добавлены все пары, содержащиеся в файле:
+		<input type="file" id="file-load"/><button onclick="baseLoad();">Импортировать</button>
+
 		</div>
 		<div id="tabs-diagr">
 			<button onclick="diagr();">
 				Построить диаграммы
 			</button>
-			<div>
+			<div id="wrap-diagr">
 				<h2>Количество часов по парам:</h2>
-				<div id="jqplot-pary">
+				<div id="jqplot-pary" class="jqplot-target">
 				</div>
 				<h2>Количество часов по дням недели:</h2>
-				<div id="jqplot-dni">
+				<div id="jqplot-dni" class="jqplot-target">
 				</div>
 				<h2>Количество часов по аудиториям:</h2>
-				<div id="jqplot-aud">
+				<div id="jqplot-aud" class="jqplot-target">
 				</div>
 				<h2>Пары по дням недели:</h2>
-				<div id="jqplot-pary-po-dnyam">
+				<div id="jqplot-pary-po-dnyam" class="jqplot-target">
 				</div>
 			</div>
 		</div>

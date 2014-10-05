@@ -232,13 +232,13 @@ function build(){
 	$('#targetGroups')[0].innerHTML='';
 	$('#targetAud')[0].innerHTML='';
 	prepareBase();
-	try{
+/*	try{
 		base=JSON.parse($('#textbase').val());
 		prepareBase();
 	}catch(e){
 		alert('Ошибка в записи базы');
 	}
-	countTable("grp","prep","aud",'targetGroups','Группа');
+*/	countTable("grp","prep","aud",'targetGroups','Группа');
 	countTable("aud","prep","grp",'targetAud','Аудитория');
 //	countTable("prep","grp","aud");
 }
@@ -263,6 +263,7 @@ function jqplotBarRender(target,uroven,ticks,ymin){
 }
 
 function diagr(){
+	$('.jqplot-target').html('');
 	prepareBase();
 	var baselen=base.length;
 	var kolvoDni=dni.length;
@@ -314,6 +315,47 @@ function diagr(){
 		jqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
 }
+
+function baseClean(){
+	if(confirm('Вы действительно хотите очистить базу?')){
+		base=[];
+		build();
+		$('.jqplot-target').html('');
+	};
+}
+
+function baseLoad(){
+	var reader = new FileReader();
+	// Closure to capture the file information.
+	var f=$('#file-load')[0].files[0];
+	reader.onload = (function(theFile) {
+        return function(e) {
+			try{
+				base=base.concat(JSON.parse(e.target.result));
+				build();
+				diagr();
+			}catch(e){
+				alert('Не удалось импортировать базу из '+theFile.name)
+			}
+         };
+      })(f);
+
+      reader.readAsText(f);
+}
+
+
+function baseSave(){
+	var blob = new Blob([JSON.stringify(base)], {
+		type: "text/plain;charset=utf-8"
+	});
+
+	var a = document.createElement('a');
+	a.download = "save.json";
+	a.href = URL.createObjectURL(blob);
+	a.innerHTML = "<button>Сохранить</button>";
+	document.getElementById('span-save').appendChild(a);
+}
+baseSave();
 
 $('#textbase').val(JSON.stringify(base));
 $(function(){
