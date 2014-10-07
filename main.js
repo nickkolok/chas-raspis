@@ -394,6 +394,7 @@ function baseSave(){
 	a.download = "save.json";
 	a.href = URL.createObjectURL(blob);
 	a.innerHTML = "<button>Сохранить</button>";
+	document.getElementById('span-save').innerHTML='';
 	document.getElementById('span-save').appendChild(a);
 }
 baseSave();
