@@ -19,7 +19,7 @@
 			<li><a href="#tabs-data">Сохранение и загрузка</a></li>
 			<li><a href="#tabs-diagr">Сводные диаграммы</a></li>
 			<li><a href="#tabs-edit">Редактировать</a></li>
-			<li><a href="#tabs-instr">Инструкция по заполнению</li>
+			<li><a href="#tabs-instr">Инструкция</a></li>
 		</ul>
 		<div id="tabs-1">
 			<div id="targetGroups" class="scrollable-x">
@@ -71,7 +71,7 @@
 			Чтобы  удалить пару, просто очистите информацию об аудитории, преподавателе или группе и нажмите "Применить изменения".
 			Чтобы добавить пару, просто заполните пустую строку (пара №0) и нажмите "Применить изменения".
 			<button onclick="baseSaveEdited();">Применить изменения</button>
-			<table>
+			<form><table>
 				<thead>
 					<tr>
 						<td>№</td>
@@ -87,7 +87,7 @@
 				</thead>
 				<tbody  id="edit-target">
 				</tbody>
-			</table>
+			</table></form>
 			<button onclick="baseSaveEdited();">Применить изменения</button>
 		</div>
 		<div id="tabs-instr">
@@ -126,6 +126,12 @@
 					<br/>
 				</li>
 			</ul>
+			<br/>
+			Скачать программу для локального использования можно
+			<a href="https://github.com/nickkolok/chas-raspis/archive/master.zip">по ссылке</a>.
+			Распакуйте архив в любую папку и откройте файл index.html в браузере Mozilla Firefox или Google Chrome и ему подобном
+			(Яндекс-браузер, Chromium, Opera версии 15 и выше и т. д.).
+			Исходный код публикуется под лицензией GNU GPLv3.
 		</div>
 	</div>
 	

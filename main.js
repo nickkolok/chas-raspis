@@ -82,8 +82,8 @@ function makeSelect(opts,vals,selected,id){
 	return rez.vTag('select','id="'+id+'"');
 }
 
-function makeInput(val,id){
-	return '<input id="'+id+'" value="'+val+'"/>';
+function makeInput(val,id,name){
+	return '<input autocomplete="on" id="'+id+'" name="'+name+'" value="'+val+'"/>';
 }
 
 function setProps(obj,props){
@@ -441,16 +441,17 @@ function buildEdit(){
 			makeSelect(dni ,commonVals,elem.den ,"den" +i),
 			makeSelect(pary,commonVals,elem.para,"para"+i),
 			makeSelect(cz  ,commonVals,elem.chzn,"chzn"+i),
-			makeInput(elem.aud,"aud"+i),
-			makeInput(elem.grp,"grp"+i),
-			makeInput(elem.prep,"prep"+i),
-			makeInput(elem.predm,"predm"+i),
+			makeInput(elem.aud,"aud"+i,"aud"),
+			makeInput(elem.grp,"grp"+i,"grp"),
+			makeInput(elem.prep,"prep"+i,"prep"),
+			makeInput(elem.predm,"predm"+i,"predm"),
 			conflicts[i-1].map(function(cnf){
 				return '<a href="#'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
-			}).join(',')
+			}).join(','),
+			'<input type="submit" hidden class="autosubmit"/>',
 		].tr();	
 	}
-	$('#edit-target').html(rez);
+	$('#edit-target').html(rez.vTag('form'));
 }
 
 function createKorpusa(){
