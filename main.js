@@ -389,7 +389,6 @@ function baseSave(){
 	var blob = new Blob([JSON.stringify(base)], {
 		type: "text/plain;charset=utf-8"
 	});
-
 	var a = document.createElement('a');
 	a.download = "save.json";
 	a.href = URL.createObjectURL(blob);
@@ -416,6 +415,7 @@ function baseSaveEdited(){
 	baseSave();
 	build();
 	buildEdit();
+	$.jStorage.set("base",base);
 }
 
 function buildEdit(){
@@ -465,7 +465,7 @@ function createKorpusa(){
 }
 createKorpusa();
 
-$('#textbase').val(JSON.stringify(base));
+base=$.jStorage.get("base",base);
 $(function(){
 	$("#tabs").tabs();
 	build();
