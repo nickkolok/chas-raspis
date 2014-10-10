@@ -396,6 +396,7 @@ function baseSave(){
 	document.getElementById('span-save').innerHTML='';
 	document.getElementById('span-save').appendChild(a);
 }
+base=$.jStorage.get("base",base);
 baseSave();
 
 function baseSaveEdited(){
@@ -448,10 +449,11 @@ function buildEdit(){
 			conflicts[i-1].map(function(cnf){
 				return '<a href="#'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
 			}).join(','),
-			'<input type="submit" hidden class="autosubmit"/>',
+//			'<input type="submit" hidden class="autosubmit"/>',
 		].tr();	
 	}
 	$('#edit-target').html(rez.vTag('form'));
+	
 }
 
 function createKorpusa(){
@@ -465,7 +467,6 @@ function createKorpusa(){
 }
 createKorpusa();
 
-base=$.jStorage.get("base",base);
 $(function(){
 	$("#tabs").tabs();
 	build();
