@@ -239,6 +239,7 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 		tablemap[i]=trs[i+extTopRows].getElementsByTagName('td');
 	}
 
+	//Затыкаем пустые ячейки неразрывными пробелами
 	for(var i=0;i<kolvoPar;i++)
 		for(var j=0;j<kolvoGroups+extLeftColumns;j++)
 			if(tablemap[i][j].innerHTML===''){
@@ -265,7 +266,8 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 
 	for(var i=0;i<kolvoPar;i+=2){
 		for(var j=extLeftColumns-1;j<kolvoGroups+extLeftColumns;j++){
-			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML){
+			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML &&
+				tablemap[i][j].style.display!='none' && tablemap[i+1][j].style.display!='none'){
 				$(tablemap[i][j]).attr("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
