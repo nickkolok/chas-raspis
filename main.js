@@ -454,6 +454,7 @@ function baseSaveEdited(){
 	build();
 	buildEdit();
 	$.jStorage.set("base",base);
+	$.jStorage.set("base"+(new Date().getDate()/1000000),base);
 }
 
 function buildEdit(){
