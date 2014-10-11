@@ -482,7 +482,7 @@ function buildEdit(){
 			makeInput(elem.prep,"prep"+i,"prep"),
 			makeInput(elem.predm,"predm"+i,"predm"),
 			conflicts[i-1].map(function(cnf){
-				return '<a href="#'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
+				return '<a href="#yakor'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
 			}).join(','),
 		].tr();	
 	}
