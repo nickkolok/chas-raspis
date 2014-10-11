@@ -100,6 +100,31 @@ Array.prototype.hasCommon=function(arr){
 		return 0;
 }
 
+Array.prototype.delEmpty=function(){
+	var len=this.length;
+	for(var i=0;i<len;i++){
+		if(this[i]===undefined || this[i]==""){
+			this.splice(i,1);
+			len--;
+			i--;
+		}
+	}
+}
+
+Array.prototype.trimStrings=function(){
+	var len=this.length;
+	for(var i=0;i<len;i++){
+		this[i]=this[i].trim();
+	}
+}
+
+Array.prototype.replaceStrings=function(p1,p2){
+	var len=this.length;
+	for(var i=0;i<len;i++){
+		this[i]=this[i].replace(p1,p2);
+	}
+}
+
 function findConflicts(p1,p2,p3){
 	var kolvoPar=pary.length;
 	var kolvoDni=dni.length;
@@ -138,6 +163,14 @@ function prepareBase(){
 			i--;
 			continue;
 		}
+		//{{Костыль
+			baseelem.aud.delEmpty();
+			baseelem.grp.delEmpty();
+			baseelem.prep.delEmpty();
+			baseelem.aud.trimStrings();
+			baseelem.grp.trimStrings();
+			baseelem.prep.trimStrings();
+		//}}Костыль
 		if(baseelem.chzn==2){
 			baseelem.chzn=0;
 			dubl=baseelem.clone();
@@ -145,7 +178,7 @@ function prepareBase(){
 			base.push(dubl);
 		}
 	}
-	base=base.delDublByProp(["den",'para','chzn','aud','grp','prep']);
+	base=base.delDublByProp(['den','para','chzn','aud','grp','prep']);
 }
 prepareBase();
 
@@ -228,7 +261,7 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 			}
 		}
 	}
-	var rowspandni=[];
+	var rowspandni=[].zapslch(0,dni.length,0);
 
 	for(var i=0;i<kolvoPar;i+=2){
 		for(var j=extLeftColumns-1;j<kolvoGroups+extLeftColumns;j++){
@@ -256,7 +289,6 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 			$(tablemap[i][0]).attr("rowspan",2*(kolvoParVDen-rowspandni[i/2/kolvoParVDen]));
 		}
 	}
-
 }
 
 function build(){
@@ -265,6 +297,7 @@ function build(){
 	prepareBase();
 	countTable("grp","prep","aud",'targetGroups','Группа');
 	countTable("aud","prep","grp",'targetAud','Аудитория');
+	buildEdit();
 }
 
 function jqplotBarRender(target,uroven,ticks,ymin){
@@ -386,7 +419,7 @@ function baseLoad(){
 }
 
 function baseSave(){
-	var blob = new Blob([JSON.stringify(base)], {
+	var blob = new Blob([JSON.stringify(base).replace(/},{/g,"},\r\n{")], {
 		type: "text/plain;charset=utf-8"
 	});
 	var a = document.createElement('a');
@@ -396,7 +429,7 @@ function baseSave(){
 	document.getElementById('span-save').innerHTML='';
 	document.getElementById('span-save').appendChild(a);
 }
-base=$.jStorage.get("base",base);
+//base=$.jStorage.get("base",base);
 baseSave();
 
 function baseSaveEdited(){
@@ -449,7 +482,6 @@ function buildEdit(){
 			conflicts[i-1].map(function(cnf){
 				return '<a href="#'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
 			}).join(','),
-//			'<input type="submit" hidden class="autosubmit"/>',
 		].tr();	
 	}
 	$('#edit-target').html(rez.vTag('form'));
@@ -467,8 +499,18 @@ function createKorpusa(){
 }
 createKorpusa();
 
+function correctAuto(){
+	var basestring=JSON.stringify(base);
+	var len=grpalias.length;
+	for(var i=0;i<len;i++){
+		basestring=basestring.replace(grpalias[i][0],grpalias[i][1]);
+	}
+	base=JSON.parse(basestring);
+	build();
+}
+
+
 $(function(){
 	$("#tabs").tabs();
 	build();
-	buildEdit();
 });
