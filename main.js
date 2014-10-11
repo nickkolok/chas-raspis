@@ -138,9 +138,9 @@ function findConflicts(p1,p2,p3){
 			var a=base[i];
 			var b=base[i+j];
 			if(
-				(a.aud.hasCommon(b.aud))+
-				(a.prep.hasCommon(b.prep))+
-				(a.grp.hasCommon(b.grp))+
+				(a.aud.hasCommon(b.aud) && a.aud[0].length>1)+
+				(a.prep.hasCommon(b.prep) && a.prep[0].length>1)+
+				(a.grp.hasCommon(b.grp) && a.grp[0].length>1)+
 				(a.predm==b.predm)
 				>1
 			){	
@@ -374,7 +374,7 @@ function diagr(){
 	}
 	stataudmas=stataudmas.sortNumericArr();
 	stataudmas=stataudmas.T();
-	$('.jqplot-target').attr('width',stataudmas[0].length*50);
+	$('.jqplot-target-aud').css('width',stataudmas[0].length*50);
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
