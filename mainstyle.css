@@ -10,3 +10,6 @@ table{
 	margin:1em;
 	border:1px solid black;
 }
+tr.para_8-00>td{
+	border-top:double black 3px;
+}

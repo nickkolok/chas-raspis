@@ -287,6 +287,8 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 			tablemap[i][0].style.display='none';
 		}else{
 			$(tablemap[i][0]).attr("rowspan",2*(kolvoParVDen-rowspandni[i/2/kolvoParVDen]));
+			if(i)
+				tablemap[i][0].parentElement.className+='para_8-00';
 		}
 	}
 }
