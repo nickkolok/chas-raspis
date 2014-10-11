@@ -433,7 +433,7 @@ function baseSave(){
 	document.getElementById('span-save').innerHTML='';
 	document.getElementById('span-save').appendChild(a);
 }
-//base=$.jStorage.get("base",base);
+base=base.concat($.jStorage.get("base",[]));
 baseSave();
 
 function baseSaveEdited(){
