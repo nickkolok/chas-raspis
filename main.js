@@ -182,12 +182,25 @@ function prepareBase(){
 }
 prepareBase();
 
-function countTable(zagol,p1,p2,target,ugolnazv){
+function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 
+	nolist || (nolist={});
 	var extLeftColumns=2;
 	var extTopRows=1;
 	var targetTable=document.createElement("table");
 	var groups=base.getVariety(zagol);
+	var groupsEtal=groups.slice();
+	var vlen=groups.length;
+	for(var vi=0;vi<vlen;vi++){
+		var rez=groups[vi].match(/^.*?(?=_)/);
+		if(!rez && groups[vi]!='-' && groups[vi]!='?')
+			console.log(groups[vi]);
+		if((!rez  || nolist[rez[0]]) && groups[vi]!='-' && groups[vi]!='?'){
+			groups.splice(vi,1);
+			vi--;
+			vlen--;
+		}
+	}
 	var th=(''.vTag('th')+ugolnazv.vTag('th')+groups.join('</th><th>').vTag('th')).vTag('tr');
 	var maintable=[];
 	var kolvoParVDen=pary.length;
@@ -213,11 +226,15 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
 		for(var g=0;g<baseElem.grp.length;g++){
-			maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
-				[groupsindex[baseElem[zagol][g]]+extLeftColumns]=
-				[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
-			nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
-			otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
+			var mat=baseElem.grp[g].match(/^.*?(?=_)/);
+			mat=mat?mat[0]:'';
+			if(!nolist[mat]){
+				maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
+					[groupsindex[baseElem[zagol][g]]+extLeftColumns]=
+					[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
+				nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
+				otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
+			}
 		}
 
 	}
@@ -226,6 +243,28 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 		maintable[itr]=maintable[itr].join('</td><td>').vTag('td');
 	}
 
+
+	//Вот здесь и дальше работаем с DOM
+
+	if(!$('#div-checks-'+zagol)[0]){
+		var facult=groupsEtal.map(function(p1){
+			var rez=p1.match(/^.*?(?=_)/);
+			return rez?rez[0]:"";
+		});
+		facult.delEmpty();
+		facult=facult.sortDelDubl();
+
+
+		var checksToAppend='';
+		for(var fi=0,flen=facult.length;fi<flen;fi++){
+			checksToAppend+=(facult[fi]).vTag('input',
+				'type="checkbox" '+'checked'.esli(!globalNolist[facult[fi]])+' onclick="build()" class="check-nolist" id="'+facult[fi]+'"');
+		}
+		var divChecks=document.createElement('div');
+		divChecks.innerHTML=checksToAppend;
+		divChecks.id='div-checks-'+zagol;
+		$('#'+target)[0].appendChild(divChecks);
+	}
 	var ih=maintable.join('</tr><tr>').vTag('tr');
 	targetTable.innerHTML=th+ih+nagr.join('</td><td>').vTag('td').vTag('tr');
 	$('#'+target)[0].appendChild(targetTable);
@@ -253,9 +292,11 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 			if(tablemap[i][j].innerHTML==tablemap[i][j-1].innerHTML && tablemap[i][j].innerHTML!='&nbsp;'){
 				if(elemPerv===0){
 					elemPerv=tablemap[i][j-1];
-					$(elemPerv).attr("colspan",1);
+					elemPerv.setAttribute("colspan",1);
+//					$(elemPerv).attr("colspan",1);
 				}
-				$(elemPerv).attr("colspan",1*$(elemPerv).attr("colspan")+1);
+				elemPerv.setAttribute("colspan",1*$(elemPerv).attr("colspan")+1);
+//				$(elemPerv).attr("colspan",1*$(elemPerv).attr("colspan")+1);
 				tablemap[i][j].style.display="none";
 			}else{
 				elemPerv=0;
@@ -268,7 +309,8 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 		for(var j=extLeftColumns-1;j<kolvoGroups+extLeftColumns;j++){
 			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML &&
 				tablemap[i][j].style.display!='none' && tablemap[i+1][j].style.display!='none'){
-				$(tablemap[i][j]).attr("rowspan","2");
+				tablemap[i][j].setAttribute("rowspan","2");
+//				$(tablemap[i][j]).attr("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
 		}	
@@ -293,15 +335,29 @@ function countTable(zagol,p1,p2,target,ugolnazv){
 				tablemap[i][0].parentElement.className+='para_8-00';
 		}
 	}
+	
 }
 
+var globalNolist=$.jStorage.get('globalNolist',{});
+
 function build(){
+	var checksNolist=document.getElementsByClassName('check-nolist');
+	for(var ci=0;ci<checksNolist.length;ci++){
+		globalNolist[checksNolist[ci].id]=!$(checksNolist[ci]).is(':checked');
+	}
 	$('#targetGroups')[0].innerHTML='';
 	$('#targetAud')[0].innerHTML='';
 	prepareBase();
-	countTable("grp","prep","aud",'targetGroups','Группа');
-	countTable("aud","prep","grp",'targetAud','Аудитория');
+	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
+	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
 	buildEdit();
+	
+	checksNolist=document.getElementsByClassName('check-nolist');
+	for(var ci=0;ci<checksNolist.length;ci++){
+		$(checksNolist[ci]).prop("checked",!globalNolist[checksNolist[ci].id]);
+	}
+	baseSave();
+	$.jStorage.set('globalNolist',globalNolist);
 }
 
 function jqplotBarRender(target,uroven,ticks,ymin){
@@ -511,6 +567,23 @@ function correctAuto(){
 		basestring=basestring.replace(grpalias[i][0],grpalias[i][1]);
 	}
 	base=JSON.parse(basestring);
+	build();
+}
+
+function correctPerechisl(){
+	var baselen=base.length;
+	for(var i=0;i<baselen;i++){
+		var glen=base[i].grp.length;
+		if(glen==1)
+			continue;
+		var mat=base[i].grp[0].match(/.*(?=_)/);
+		mat=mat?mat[0]:'';
+		for(var j=1; j<glen;j++){
+			if(!base[i].grp[j].match(/.*(?=_)/)){
+				base[i].grp[j]=mat+'_'+base[i].grp[j];
+			}
+		}
+	}
 	build();
 }
 
