@@ -126,36 +126,38 @@ Array.prototype.replaceStrings=function(p1,p2){
 }
 
 function findConflicts(p1,p2,p3){
+	var start=new Date().getTime();
 	var kolvoPar=pary.length;
 	var kolvoDni=dni.length;
-	prepareBase();
+//	prepareBase();
 	var baselen=base.length;
-	for(var i=0;i<baselen+1;i++){
-		conflicts[i]=[];
-	}
 	for(var i=0;i<baselen-1;i++){
-		for(var j=1;i+j<baselen && !compareObjects(base[i],base[i+j],['den','para','chzn']);j++){
+//		for(var j=i+1;j<baselen && !compareObjects(base[i],base[j],['den','para','chzn']);j++){
+		for(var j=i+1; j<baselen && base[i].chzn==base[j].chzn ; j++){
 			var a=base[i];
-			var b=base[i+j];
+			var b=base[j];
 			if(
-				(a.aud.hasCommon(b.aud) && a.aud[0].length>1)+
-				(a.prep.hasCommon(b.prep) && a.prep[0].length>1)+
-				(a.grp.hasCommon(b.grp) && a.grp[0].length>1)+
+				(a.aud[0].length>1 && a.aud.hasCommon(b.aud))+
+				(a.prep[0].length>1 && a.prep.hasCommon(b.prep))+
+				(a.grp[0].length>1 && a.grp.hasCommon(b.grp))+
 				(a.predm==b.predm)
 				>1
 			){	
-				conflicts[i].push(i+j);
-				conflicts[i+j].push(i);
+				conflicts[i].push(j);
+				conflicts[j].push(i);
 			}
 		}
 	}
+	console.log('findConflicts():'+(new Date().getTime()-start));
 }
 
 function prepareBase(){
+	var starttime=new Date().getTime();
 	var baselen=base.length;
 	var baseelem;
 	var dubl;
 	for(var i=0;i<baselen;i++){
+		conflicts[i]=[];
 		baseelem=base[i];
 		if(baseelem.aud=='' || baseelem.grp=='' || baseelem.prep==''){
 			base.splice(i,1);
@@ -179,11 +181,11 @@ function prepareBase(){
 		}
 	}
 	base=base.delDublByProp(['den','para','chzn','aud','grp','prep']);
+	console.log('prepareBase():'+(new Date().getTime()-starttime));
 }
-prepareBase();
 
 function countTable(zagol,p1,p2,target,ugolnazv,nolist){
-
+	var start=new Date().getTime();
 	nolist || (nolist={});
 	var extLeftColumns=2;
 	var extTopRows=1;
@@ -267,7 +269,6 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	}
 	var ih=maintable.join('</tr><tr>').vTag('tr');
 	targetTable.innerHTML=th+ih+nagr.join('</td><td>').vTag('td').vTag('tr');
-	$('#'+target)[0].appendChild(targetTable);
 
 	$(targetTable).attr("cellspacing",0);
 	$(targetTable).attr("cellpadding",0);
@@ -293,10 +294,8 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 				if(elemPerv===0){
 					elemPerv=tablemap[i][j-1];
 					elemPerv.setAttribute("colspan",1);
-//					$(elemPerv).attr("colspan",1);
 				}
 				elemPerv.setAttribute("colspan",1*$(elemPerv).attr("colspan")+1);
-//				$(elemPerv).attr("colspan",1*$(elemPerv).attr("colspan")+1);
 				tablemap[i][j].style.display="none";
 			}else{
 				elemPerv=0;
@@ -310,7 +309,6 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML &&
 				tablemap[i][j].style.display!='none' && tablemap[i+1][j].style.display!='none'){
 				tablemap[i][j].setAttribute("rowspan","2");
-//				$(tablemap[i][j]).attr("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
 		}	
@@ -335,12 +333,15 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 				tablemap[i][0].parentElement.className+='para_8-00';
 		}
 	}
+	$('#'+target)[0].appendChild(targetTable);
+	console.log('countTable():'+(new Date().getTime()-start));
 	
 }
 
 var globalNolist=$.jStorage.get('globalNolist',{});
 
 function build(){
+	var start=new Date().getTime();
 	var checksNolist=document.getElementsByClassName('check-nolist');
 	for(var ci=0;ci<checksNolist.length;ci++){
 		globalNolist[checksNolist[ci].id]=!$(checksNolist[ci]).is(':checked');
@@ -351,13 +352,21 @@ function build(){
 	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
 	buildEdit();
-	
-	checksNolist=document.getElementsByClassName('check-nolist');
+	setTimeout(saveInBackground,10);
+	console.log('build():'+(new Date().getTime()-start));
+}
+
+function saveInBackground(){
+	var starttime=new Date().getTime();
+	var checksNolist=document.getElementsByClassName('check-nolist');
 	for(var ci=0;ci<checksNolist.length;ci++){
 		$(checksNolist[ci]).prop("checked",!globalNolist[checksNolist[ci].id]);
 	}
 	baseSave();
 	$.jStorage.set('globalNolist',globalNolist);
+	$.jStorage.set("base",base);
+	$.jStorage.set("base"+(new Date().getDate()/1000000),base);
+	console.log('saveInBackground():'+(new Date().getTime()-starttime));
 }
 
 function jqplotBarRender(target,uroven,ticks,ymin){
@@ -493,9 +502,11 @@ base=base.concat($.jStorage.get("base",[]));
 baseSave();
 
 function baseSaveEdited(){
+	var bset=new Date().getTime();
+	
 	var len=$('#edit-target > tr').length;
 	for(var i=0;i<len;i++){
-		setProps(base[i],{
+/*		setProps(base[i],{
 			den  :1*$('#den'  +i).val(),
 			para :1*$('#para' +i).val(),
 			chzn :1*$('#chzn' +i).val(),
@@ -503,14 +514,30 @@ function baseSaveEdited(){
 			grp  :$('#grp'  +i).val().split(','),
 			prep :$('#prep' +i).val().split(','),
 			predm:$('#predm'+i).val(),
+		});*/
+		setProps(base[i],{
+			den  :1*document.getElementById('den'  +i).value,
+			para :1*document.getElementById('para' +i).value,
+			chzn :1*document.getElementById('chzn' +i).value,
+			aud  :document.getElementById('aud'  +i).value.split(','),
+			grp  :document.getElementById('grp'  +i).value.split(','),
+			prep :document.getElementById('prep' +i).value.split(','),
+			predm:document.getElementById('predm'+i).value,
 		});
+
+/*			base[i].den  =1*document.getElementById('den'  +i).value;
+			base[i].para =1*document.getElementById('para' +i).value;
+			base[i].chzn =1*document.getElementById('chzn' +i).value,
+			base[i].aud  =document.getElementById('aud'  +i).value.split(',');
+			base[i].grp  =document.getElementById('grp'  +i).value.split(',');
+			base[i].prep =document.getElementById('prep' +i).value.split(',');
+			base[i].predm=document.getElementById('predm'+i).value;
+*/
+
 	}
-	prepareBase();
-	baseSave();
+	console.log(new Date().getTime()-bset);
 	build();
-	buildEdit();
-	$.jStorage.set("base",base);
-	$.jStorage.set("base"+(new Date().getDate()/1000000),base);
+	console.log(new Date().getTime()-bset);
 }
 
 function buildEdit(){
