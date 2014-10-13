@@ -540,6 +540,25 @@ function baseSaveEdited(){
 	console.log(new Date().getTime()-bset);
 }
 
+function baseDobav(){
+	var bset=new Date().getTime();
+	
+	for(var i=0;i<kolvoDobav;i++){
+		setProps(base[i],{
+			den  :1*document.getElementById('dobav-den'  +i).value,
+			para :1*document.getElementById('dobav-para' +i).value,
+			chzn :1*document.getElementById('dobav-chzn' +i).value,
+			aud  :document.getElementById('dobav-aud'  +i).value.split(','),
+			grp  :document.getElementById('dobav-grp'  +i).value.split(','),
+			prep :document.getElementById('dobav-prep' +i).value.split(','),
+			predm:document.getElementById('dobav-predm'+i).value,
+		});
+	}
+	build();
+	buildDobav();
+	console.log(new Date().getTime()-bset);
+}
+
 function buildEdit(){
 	findConflicts();
 	var rez='';
@@ -574,6 +593,28 @@ function buildEdit(){
 	}
 	$('#edit-target').html(rez.vTag('form'));
 	
+}
+
+var kolvoDobav=22;
+
+function buildDobav(){
+	var rez='';
+	var elem;
+	var commonVals=[0,1,2,3,4,5,6,7,8,9];
+	var cz=['Числитель','Знаменатель','Не зависит'];
+	for(var i=0;i<kolvoDobav;i++){
+		rez+=[
+			(''+i).vTag('span','id="yakor-dopoln'+i+'"'),
+			makeSelect(dni ,commonVals,2,"dobav-den" +i),
+			makeSelect(pary,commonVals,2,"dobav-para"+i),
+			makeSelect(cz  ,commonVals,2,"dobav-chzn"+i),
+			makeInput('',"dobav-aud"+i,"aud"),
+			makeInput('',"dobav-grp"+i,"grp"),
+			makeInput('',"dobav-prep"+i,"prep"),
+			makeInput('',"dobav-predm"+i,"predm"),
+		].tr();	
+	}
+	$('#dobav-target').html(rez);
 }
 
 function createKorpusa(){
@@ -614,8 +655,8 @@ function correctPerechisl(){
 	build();
 }
 
-
 $(function(){
 	$("#tabs").tabs();
 	build();
+	buildDobav();
 });
