@@ -544,7 +544,7 @@ function baseDobav(){
 	var bset=new Date().getTime();
 	
 	for(var i=0;i<kolvoDobav;i++){
-		setProps(base[i],{
+		base.push({
 			den  :1*document.getElementById('dobav-den'  +i).value,
 			para :1*document.getElementById('dobav-para' +i).value,
 			chzn :1*document.getElementById('dobav-chzn' +i).value,
