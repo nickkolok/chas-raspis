@@ -195,7 +195,9 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	for(var i=0;i<kolvoPar;i+=2){
 		for(var j=extLeftColumns-1;j<kolvoGroups+extLeftColumns;j++){
 			if(tablemap[i][j].innerHTML==tablemap[i+1][j].innerHTML &&
-				tablemap[i][j].style.display!='none' && tablemap[i+1][j].style.display!='none'){
+				tablemap[i][j].getAttribute('colspan')==tablemap[i+1][j].getAttribute('colspan') &&
+				tablemap[i][j].style.display!='none' && tablemap[i+1][j].style.display!='none'
+			){
 				tablemap[i][j].setAttribute("rowspan","2");
 				tablemap[i+1][j].style.display="none";
 			}
