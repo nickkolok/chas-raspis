@@ -1,78 +1,5 @@
 'use strict';
 
-Array.prototype.getVariety=function(prop){
-	var len=this.length;
-	var rez=[];
-	for(var i=0;i<len;i++){
-		if(this[i][prop]!==undefined){
-			if(this[i][prop].isArray){
-				rez=rez.concat(this[i][prop]);
-			}else{
-				rez.push(this[i][prop]);
-			}
-		}
-	}
-	return rez.sortDelDubl();
-}
-
-String.prototype.multiply=function(n){
-	var rez=this;
-	for(var i=0;i<n;i++)
-		rez+=this;
-	return rez;
-}
-
-Array.prototype.sortBy=function(prop){
-	return this.sort(function(a,b){
-		return compareObjects(a,b,prop);
-	});
-	
-}
-
-function compareObjects(a,b,propList){
-	var len=propList.length;
-	for(var i=0;i<len;i++){
-		if(a[propList[i]]<b[propList[i]])
-			return -1;
-		else if (a[propList[i]]>b[propList[i]])
-			return 1;
-	}
-	return 0;
-}
-
-Array.prototype.delDublByProp=function(prop){
-	var rez=this.slice();
-	rez=rez.sortBy(prop);
-	var len=rez.length;
-	var p=prop.length;
-	for(var i=1;i<len;i++){
-		if(!compareObjects(rez[i-1],rez[i],prop)){
-			rez.splice(i,1);
-			len--;
-		}
-	}
-	return rez;
-}
-
-Array.prototype.sortNumeric=function(){
-	return this.sort(function(a,b){
-		return a-b;
-	});
-}
-
-Array.prototype.sortNumericArr=function(){
-	return this.sort(function(a,b){
-		return a[0]-b[0];
-	});
-}
-
-function safeinc(obj,prop){
-	if(!obj[prop])
-		obj[prop]=1;
-	else
-		obj[prop]++;
-}
-
 function makeSelect(opts,vals,selected,id){
 	var rez='';
 	var len=opts.length;
@@ -84,45 +11,6 @@ function makeSelect(opts,vals,selected,id){
 
 function makeInput(val,id,name){
 	return '<input autocomplete="on" id="'+id+'" name="'+name+'" value="'+val+'"/>';
-}
-
-function setProps(obj,props){
-	for(var chto in props){
-		obj[chto]=props[chto];
-	}
-}
-
-Array.prototype.hasCommon=function(arr){
-	var len=arr.length;
-	for(var i=0; i<len; i++)
-		if(this.hasElem(arr[i]))
-			return 1;
-		return 0;
-}
-
-Array.prototype.delEmpty=function(){
-	var len=this.length;
-	for(var i=0;i<len;i++){
-		if(this[i]===undefined || this[i]==""){
-			this.splice(i,1);
-			len--;
-			i--;
-		}
-	}
-}
-
-Array.prototype.trimStrings=function(){
-	var len=this.length;
-	for(var i=0;i<len;i++){
-		this[i]=this[i].trim();
-	}
-}
-
-Array.prototype.replaceStrings=function(p1,p2){
-	var len=this.length;
-	for(var i=0;i<len;i++){
-		this[i]=this[i].replace(p1,p2);
-	}
 }
 
 function findConflicts(p1,p2,p3){
@@ -351,7 +239,7 @@ function build(){
 	prepareBase();
 	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
-	buildEdit();
+	preBuildEdit();
 	setTimeout(saveInBackground,10);
 	console.log('build():'+(new Date().getTime()-start));
 }
@@ -559,7 +447,12 @@ function baseDobav(){
 	console.log(new Date().getTime()-bset);
 }
 
+function preBuildEdit(){
+	$('#startbuild').show();
+}
+
 function buildEdit(){
+	$('#startbuild').hide();
 	findConflicts();
 	var rez='';
 	var elem;
@@ -592,7 +485,6 @@ function buildEdit(){
 		].tr();	
 	}
 	$('#edit-target').html(rez.vTag('form'));
-	
 }
 
 var kolvoDobav=22;
