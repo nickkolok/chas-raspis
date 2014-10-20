@@ -360,21 +360,26 @@ function baseClean(){
 }
 
 function baseLoad(){
-	var reader = new FileReader();
+	
+	var readers=[];
 	// Closure to capture the file information.
-	var f=$('#file-load')[0].files[0];
-	reader.onload = (function(theFile) {
-        return function(e) {
-			try{
-				base=base.concat(JSON.parse(e.target.result));
-				build();
-				diagr();
-			}catch(e){
-				alert('Не удалось импортировать базу из '+theFile.name)
-			}
-         };
-      })(f);
-      reader.readAsText(f);
+	var filelist=$('#file-load')[0].files;
+	var f;
+	for(var i=0;i<filelist.length;i++){
+		readers[i] = new FileReader();
+		f=filelist[i];
+		readers[i].onload = (function(theFile) {
+			return function(e) {
+				try{
+					base=base.concat(JSON.parse(e.target.result));
+					build();
+				}catch(e){
+					alert('Не удалось импортировать базу из '+theFile.name)
+				}
+			};
+		})(f);
+		readers[i].readAsText(f);
+	}
 }
 
 function baseSave(){
