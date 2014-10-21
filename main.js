@@ -276,7 +276,11 @@ function jqplotBarRender(target,uroven,ticks,ymin){
 			seriesDefaults: {
 				renderer: $.jqplot.BarRenderer,
 				rendererOptions: { barMargin: 15 },
-			}
+//				shadow:false,
+			},
+			grid:{
+//				shadow:false,
+			},
 		}
 	);
 }
