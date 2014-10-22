@@ -1,5 +1,12 @@
 'use strict';
 
+Array.prototype.replaceUndefinedBy0=function(){
+	var len=this.length;
+	for(var i=0;i<len;i++)
+		if(!this[i])
+			this[i]=0;
+}
+
 function makeSelect(opts,vals,selected,id){
 	var rez='';
 	var len=opts.length;
@@ -259,6 +266,74 @@ function saveInBackground(){
 	console.log('saveInBackground():'+(new Date().getTime()-starttime));
 }
 
+function nonjqplotBarRender(target,uroven,ticks,ymin){
+	var newticks=ticks.slice().map(function(elem,index){
+		return '<br/>'.esli(index%2)+elem;
+	});
+	uroven.replaceUndefinedBy0();
+	target=$('#'+target);
+	target[0].height="400";
+	target.css("height","400px");
+	var mdata=[];
+	for(var i=0;i<uroven.length;i++){
+		mdata[i]=[uroven[i],{label:newticks[i]}];
+	}
+//	console.log(mdata);
+	target.tufteBar({
+    data: mdata,/*[
+      // First element is the y-value
+      // Other elements are arbitary - they are not used by the lib
+      // but are passed back into callback functions
+      [1.0, {label: 'Dog'}],
+      [1.3, {label: 'Raccoon'}],
+      // etc...
+*//*
+      // For stacked graphs, pass an array of non-cumulative y values
+      [[1.5, 1.0, 0.51], {label: '2005'}]
+    ],
+
+    // Any of the following properties can be either static values 
+    // or a function that will be called for each data point. 
+    // For functions, 'this' will be set to the current data element, 
+    // just like jQuery's $.each
+
+*/    // Bar width in arbitrary units, 1.0 means the bars will be snuggled
+    // up next to each other
+    barWidth: 0.5, 
+
+/*    // The label on top of the bar - can contain HTML
+    // formatNumber inserts commas as thousands separators in a number
+  */  barLabel:  function(index) { 
+      return uroven[index]; 
+    }, 
+
+    // The label on the x-axis - can contain HTML
+    axisLabel: function(index) { return this[1].label }, 
+
+    // The color of the bar
+    color:     function(index) { 
+      return ['#E57536', '#82293B'][index % 2] 
+    },
+ /*
+    // Legend is optional
+    legend: {
+      // Data can be an array of any type of object, but the default
+      // formatter works with strings
+      data: ["North", "East", "West"],
+
+      // By default, the colors of the graph are used
+      color: function(index) { 
+        return ['#E57536', '#82293B'][index % 2] 
+      },
+
+      // You can customize the element label - can contain HTML
+      label: function(index) { return this }
+    }
+*/  });
+
+}
+
+
 function jqplotBarRender(target,uroven,ticks,ymin){
 	var newticks=ticks.slice().map(function(elem,index){
 		return '<br/>'.esli(index%2)+elem;
@@ -339,10 +414,11 @@ function diagr(){
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
-	jqplotBarRender('jqplot-aud' ,stataudmas[0],stataudmas[1],0);
+	nonjqplotBarRender('jqplot-aud' ,stataudmas[0],stataudmas[1],0);
 
 	var podnyam=$('#jqplot-pary-po-dnyam')[0];
 	for(var i=0;i<kolvoDni;i++){
+		statpodnyammas[i][0].replaceUndefinedBy0();
 		statpodnyammas[i]=statpodnyammas[i].sortNumericArr();
 		statpodnyammas[i]=statpodnyammas[i].T();
 		var h3=document.createElement('h3');
@@ -351,7 +427,7 @@ function diagr(){
 		var targdiv=document.createElement('div');
 		targdiv.id='jqplot-podnyam-'+dni[i];
 		podnyam.appendChild(targdiv);
-		jqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
+		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
 }
 
