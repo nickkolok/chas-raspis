@@ -418,7 +418,9 @@ function diagr(){
 
 	var podnyam=$('#jqplot-pary-po-dnyam')[0];
 	for(var i=0;i<kolvoDni;i++){
+		statpodnyammas[i]=statpodnyammas[i].T();
 		statpodnyammas[i][0].replaceUndefinedBy0();
+		statpodnyammas[i]=statpodnyammas[i].T();
 		statpodnyammas[i]=statpodnyammas[i].sortNumericArr();
 		statpodnyammas[i]=statpodnyammas[i].T();
 		var h3=document.createElement('h3');
