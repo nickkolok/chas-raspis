@@ -16,6 +16,13 @@ tr.para_8-00>td{
 .jqplot-target{
 	margin-bottom:77px;
 }
+.x-scroll{
+	overflow-x:scroll;
+	overflow-y:hidden;
+	padding-top:25px;
+	padding-bottom:25px;
+	width:95%;
+}
 h3,h2{
 	margin-top:100px;
 }

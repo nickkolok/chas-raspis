@@ -5,7 +5,7 @@ Array.prototype.replaceUndefinedBy0=function(){
 	for(var i=0;i<len;i++)
 		if(!this[i])
 			this[i]=0;
-}
+};
 
 function makeSelect(opts,vals,selected,id){
 	var rez='';
@@ -120,22 +120,25 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 
 	var kolvoBase=base.length;
 	var baseElem;
+	var g;
+	var mat;
+
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
-		for(var g=0;g<baseElem.grp.length;g++){
-			var mat=baseElem.grp[g].match(/^.*?(?=_)/);
+		for(g=0;g<baseElem.grp.length;g++){
+			mat=baseElem.grp[g].match(/^.*?(?=_)/);
 			mat=mat?mat[0]:'';
 			if(!nolist[mat]){
 				maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
 					[groupsindex[baseElem[zagol][g]]+extLeftColumns]=
-					[baseElem.predm,baseElem[p1],baseElem[p2]].join(' ');
+						baseElem.predm+' '+baseElem[p1]+' '+baseElem[p2];
 				nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
 				otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
 			}
 		}
 
 	}
-	var maintableCopy=maintable.clone();
+	console.log('countTable() - осн. цикл:'+(new Date().getTime()-start));
 	for(var itr=0;itr<kolvoPar;itr++){
 		maintable[itr]=maintable[itr].join('</td><td>').vTag('td');
 	}
@@ -641,3 +644,16 @@ $(function(){
 	build();
 	buildDobav();
 });
+
+function uniteGrp(){
+	var baselen=base.length-1;
+	for(var i=0;i<baselen;i++){
+		if(!compareObjects(base[i],base[i+1],['den','para','chzn','aud','prep'])){
+			base[i].grp=base[i].grp.concat(base[i+1].grp).sortDelDubl();
+			console.log(base[i],' ',base[i+1]);
+			base.splice(i+1,1);
+			baselen--;
+		}
+	}
+	build();
+}

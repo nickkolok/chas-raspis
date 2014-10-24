@@ -48,6 +48,7 @@
 			</h2>
 			<button onclick="correctAuto();">Автоматическая статическая синонимическая</button>
 			<button onclick="correctPerechisl();">Перечислений без префикса</button>
+			<button onclick="uniteGrp();">Объединение пар по группам</button>
 		</div>
 		<div id="tabs-diagr">
 			Корпуса (используйте Shift и Ctrl для выбора нескольких):
@@ -65,7 +66,9 @@
 				<div id="jqplot-dni" class="jqplot-target">
 				</div>
 				<h2>Количество часов по аудиториям:</h2>
-				<div id="jqplot-aud" class="jqplot-target jqplot-target-aud">
+				<div class="x-scroll">
+					<div id="jqplot-aud" class="jqplot-target jqplot-target-aud">
+					</div>
 				</div>
 				<h2>Пары по дням недели:</h2>
 				<div id="jqplot-pary-po-dnyam" class="jqplot-target jqplot-target-aud">
