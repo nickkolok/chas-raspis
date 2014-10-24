@@ -46,6 +46,22 @@ function findConflicts(p1,p2,p3){
 	console.log('findConflicts():'+(new Date().getTime()-start));
 }
 
+Array.prototype.delDublByProp=function(prop){
+/**Удаление элементов массива, у которых свойства из массива строк prop совпадают с ранее рассмотренными.*/
+	this.sortBy(prop);
+	prop=prop.reverse();
+	var len=this.length;
+	var p=prop.length;
+	for(var i=1;i<len;i++){
+		if(!compareObjects(this[i-1],this[i],prop)){
+			this.splice(i,1);
+			len--;
+			i--;
+		}
+	}
+	return this;
+}
+
 function prepareBase(){
 	var starttime=new Date().getTime();
 	var baselen=base.length;
@@ -75,7 +91,7 @@ function prepareBase(){
 			base.push(dubl);
 		}
 	}
-	base=base.delDublByProp(['den','para','chzn','aud','grp','prep']);
+	base.delDublByProp(['den','para','chzn','aud','grp','prep']);
 	console.log('prepareBase():'+(new Date().getTime()-starttime));
 }
 
@@ -193,7 +209,7 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 					elemPerv=tablemap[i][j-1];
 					elemPerv.setAttribute("colspan",1);
 				}
-				elemPerv.setAttribute("colspan",1*$(elemPerv).attr("colspan")+1);
+				elemPerv.setAttribute("colspan",1*elemPerv.getAttribute("colspan")+1);
 				tablemap[i][j].style.display="none";
 			}else{
 				elemPerv=0;
@@ -228,7 +244,7 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 		if(i%(2*kolvoParVDen)){
 			tablemap[i][0].style.display='none';
 		}else{
-			$(tablemap[i][0]).attr("rowspan",2*(kolvoParVDen-rowspandni[i/2/kolvoParVDen]));
+			tablemap[i][0].setAttribute("rowspan",2*(kolvoParVDen-rowspandni[i/2/kolvoParVDen]));
 			if(i)
 				tablemap[i][0].parentElement.className+='para_8-00';
 		}
@@ -486,15 +502,6 @@ function baseSaveEdited(){
 	
 	var len=$('#edit-target > tr').length;
 	for(var i=0;i<len;i++){
-/*		setProps(base[i],{
-			den  :1*$('#den'  +i).val(),
-			para :1*$('#para' +i).val(),
-			chzn :1*$('#chzn' +i).val(),
-			aud  :$('#aud'  +i).val().split(','),
-			grp  :$('#grp'  +i).val().split(','),
-			prep :$('#prep' +i).val().split(','),
-			predm:$('#predm'+i).val(),
-		});*/
 		setProps(base[i],{
 			den  :1*document.getElementById('den'  +i).value,
 			para :1*document.getElementById('para' +i).value,
@@ -504,16 +511,6 @@ function baseSaveEdited(){
 			prep :document.getElementById('prep' +i).value.split(','),
 			predm:document.getElementById('predm'+i).value,
 		});
-
-/*			base[i].den  =1*document.getElementById('den'  +i).value;
-			base[i].para =1*document.getElementById('para' +i).value;
-			base[i].chzn =1*document.getElementById('chzn' +i).value,
-			base[i].aud  =document.getElementById('aud'  +i).value.split(',');
-			base[i].grp  =document.getElementById('grp'  +i).value.split(',');
-			base[i].prep =document.getElementById('prep' +i).value.split(',');
-			base[i].predm=document.getElementById('predm'+i).value;
-*/
-
 	}
 	console.log(new Date().getTime()-bset);
 	build();
