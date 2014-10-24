@@ -379,6 +379,15 @@ function jqplotBarRender(target,uroven,ticks,ymin){
 	);
 }
 
+function safeinc(obj,prop,n){
+	if(n===undefined)
+		n=1;
+	if(!obj[prop])
+		obj[prop]=n;
+	else
+		obj[prop]+=n;
+}
+
 function diagr(){
 	$('.jqplot-target').html('');
 	prepareBase();
@@ -415,8 +424,8 @@ function diagr(){
 			}
 		}
 		if(fl_korp){
-			safeinc(statpary,baseelem.para);
-			safeinc(statdni ,baseelem.den );
+			safeinc(statpary,baseelem.para,baseelem.aud.length/dni .length/2);
+			safeinc(statdni ,baseelem.den ,baseelem.aud.length/pary.length/2);
 		}
 	}
 
@@ -447,7 +456,13 @@ function diagr(){
 		podnyam.appendChild(h3);
 		var targdiv=document.createElement('div');
 		targdiv.id='jqplot-podnyam-'+dni[i];
-		podnyam.appendChild(targdiv);
+		targdiv.className='jqplot-target jqplot-target-aud'
+		targdiv.style.width=''+(stataudmas[0].length*50)+'px';
+
+		var wrapdiv=document.createElement('div');
+		wrapdiv.className='x-scroll';
+		podnyam.appendChild(wrapdiv);
+		wrapdiv.appendChild(targdiv);
 		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
 }
