@@ -640,3 +640,24 @@ function checkOnly(abst,name){
 	$('#'+name).prop("checked",1);
 	build();
 }
+
+
+function vyborParPoMaske(){
+	var mask=$('#input-mask').val();
+	var maskbase='';
+	var baselen=base.length;
+	for(var i=0; i<baselen; i++){
+		var tj=JSON.stringify(base[i]);
+		if(tj.search(mask)!=-1)
+			maskbase+=','+tj;
+	}
+	var blob = new Blob(['['+maskbase.replace(/},{/g,"},\r\n{").replace(/^,/,'')+']'], {
+		type: "text/plain;charset=utf-8"
+	});
+	var a = document.createElement('a');
+	a.download = mask+".json";
+	a.href = URL.createObjectURL(blob);
+	a.innerHTML = "<button>Сохранить</button>";
+	document.getElementById('span-mask').innerHTML='';
+	document.getElementById('span-mask').appendChild(a);
+}

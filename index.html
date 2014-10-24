@@ -40,6 +40,11 @@
 			<h2>Сохранение базы</h2>
 			База будет сохранена в файл save.json
 			<span id="span-save"></span>
+			<br/>
+			Выбор пар по подстроке (для опытных пользователей):
+			<input id="input-mask" data-jstorage-id="input-mask"/>
+			<button onclick="vyborParPoMaske()">Выбрать</button>
+			<span id="span-mask"></span>
 			<h2>Импорт базы</h2>
 			В расписание будут добавлены все пары, содержащиеся в файле:
 			<input type="file" id="file-load" multiple /><button onclick="baseLoad();">Импортировать</button>
