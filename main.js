@@ -141,8 +141,8 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
-		for(g=0;g<baseElem.grp.length;g++){
-			mat=baseElem.grp[g].match(/^.*?(?=_)/);
+		for(g=0;g<baseElem[zagol].length;g++){
+			mat=baseElem[zagol][g].match(/^.*?(?=_)/);
 			mat=mat?mat[0]:'';
 			if(!nolist[mat]){
 				maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
