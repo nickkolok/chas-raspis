@@ -173,9 +173,11 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 
 		var checksToAppend='';
 		for(var fi=0,flen=facult.length;fi<flen;fi++){
-			checksToAppend+=(facult[fi]).vTag('input',
+			checksToAppend+=
+				(''.vTag('input',
 				'type="checkbox" '+'checked'.esli(!globalNolist[facult[fi]])+' onclick="build()" class="check-nolist" id="'+
-				facult[fi]+'"').vTag('span','title="'+podskaz[facult[fi]]+'"');
+				facult[fi]+'"')+facult[fi].vTag('span',' onclick="checkOnly(\''+zagol+'\',\''+facult[fi]+'\');"')
+				).vTag('span','title="'+podskaz[facult[fi]]+'"');
 		}
 		var divChecks=document.createElement('div');
 		divChecks.innerHTML=checksToAppend;
@@ -630,5 +632,11 @@ function uniteGrp(){
 			baselen--;
 		}
 	}
+	build();
+}
+
+function checkOnly(abst,name){
+	$('#div-checks-'+abst+' > span > input').prop("checked",0);
+	$('#'+name).prop("checked",1);
 	build();
 }
