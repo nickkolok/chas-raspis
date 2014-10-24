@@ -625,9 +625,8 @@ $(function(){
 function uniteGrp(){
 	var baselen=base.length-1;
 	for(var i=0;i<baselen;i++){
-		if(!compareObjects(base[i],base[i+1],['den','para','chzn','aud','prep'])){
+		if(!compareObjects(base[i],base[i+1],['den','para','chzn','aud','prep','predm'])){
 			base[i].grp=base[i].grp.concat(base[i+1].grp).sortDelDubl();
-			console.log(base[i],' ',base[i+1]);
 			base.splice(i+1,1);
 			baselen--;
 		}
