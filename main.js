@@ -255,7 +255,7 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	
 }
 
-var globalNolist=$.jStorage.get('globalNolist',{});
+var globalNolist=$.jStorage.get('globalNolist',defaultNolist);
 
 function build(){
 	var start=new Date().getTime();

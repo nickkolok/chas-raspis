@@ -145,6 +145,15 @@ var podskaz={
 	"?":"Неизвестно",
 };
 
+var defaultNolist={};
+for(var chto in podskaz){
+	defaultNolist[chto]=1;
+}
+defaultNolist['МАТ']=0;
+defaultNolist['?']=0;
+
 for(var i=0;i<korpusa.length;i++){
 	podskaz[korpusa[i]]='Корпус №'+korpusa[i];
+	defaultNolist[korpusa[i]]=1;
 }
+defaultNolist[1]=0;
