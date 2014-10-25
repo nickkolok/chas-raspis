@@ -292,6 +292,7 @@ function nonjqplotBarRender(target,uroven,ticks,ymin){
 	var newticks=ticks.slice().map(function(elem,index){
 		return '<br/>'.esli(index%2)+elem;
 	});
+	uroven.NaNtoUndefined();
 	uroven.replaceUndefinedBy0();
 	target=$('#'+target);
 	target[0].height="400";
