@@ -267,10 +267,12 @@ function build(){
 	}
 	$('#targetGroups')[0].innerHTML='';
 	$('#targetAud')[0].innerHTML='';
+	console.log(base);
 	prepareBase();
 	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
 	preBuildEdit();
+	console.log(base);
 	setTimeout(saveInBackground,10);
 	console.log('build():'+(new Date().getTime()-start));
 }
@@ -284,8 +286,15 @@ function saveInBackground(){
 	baseSave();
 	$.jStorage.set('globalNolist',globalNolist);
 	$.jStorage.set("base",base);
-	$.jStorage.set("base"+(new Date().getDate()/1000000),base);
+//	$.jStorage.set("base"+(new Date().getDate()/1000000),base);
 	console.log('saveInBackground():'+(new Date().getTime()-starttime));
+}
+
+//Со слезами на глазах удаляем бэкапы
+var keys = $.jStorage.index();
+for(var i=0;i<keys.length;i++){
+	if(keys[i].search(/base0.*/)!=-1)
+		$.jStorage.deleteKey(keys[i]);
 }
 
 function nonjqplotBarRender(target,uroven,ticks,ymin){
@@ -317,7 +326,6 @@ function nonjqplotBarRender(target,uroven,ticks,ymin){
 	});
 
 }
-
 
 function jqplotBarRender(target,uroven,ticks,ymin){
 	var newticks=ticks.slice().map(function(elem,index){
@@ -475,7 +483,21 @@ function baseSave(){
 	document.getElementById('span-save').innerHTML='';
 	document.getElementById('span-save').appendChild(a);
 }
-base=base.concat($.jStorage.get("base",[]));
+
+if(document.location.href.search('#--noconcat')!=-1){
+	base=$.jStorage.get("base",[]);
+}else{
+	base=base.concat($.jStorage.get("base",[]));
+}
+
+if(document.location.href.search('#--deleteall')!=-1){
+	base=[];
+}
+
+if(document.location.href.search('#--jstorage-flush')!=-1){
+	$.jStorage.flush();
+}
+
 baseSave();
 
 function baseSaveEdited(){
