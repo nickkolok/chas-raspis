@@ -86,10 +86,16 @@
 			Несколько групп, преподавателей или аудиторий вводятся через запятую без пробелов.
 			Чтобы  удалить пару, просто очистите информацию об аудитории, преподавателе или группе и нажмите "Применить изменения".
 			Чтобы добавить пару, просто заполните пустую строку (пара №0) и нажмите "Применить изменения"
-			или воспользуйтесь вкладкой "Добавить". 
+			или воспользуйтесь вкладкой "Добавить".
+			<br/>
 			<button onclick="buildEdit();" id="startbuild">Начать редактирование</button>
+			<label>
+				<input type="checkbox" id="edit-only-conflicts" data-jstorage-id="edit-only-conflicts"/>
+				Только конфликтующие
+			</label>
+			<br/>
 			<button onclick="baseSaveEdited();">Применить изменения</button>
-			<form><table>
+			<table>
 				<thead>
 					<tr>
 						<td>№</td>
@@ -105,7 +111,7 @@
 				</thead>
 				<tbody  id="edit-target">
 				</tbody>
-			</table></form>
+			</table>
 			<button onclick="baseSaveEdited();">Применить изменения</button>
 		</div>
 		<div id="tabs-dobav">

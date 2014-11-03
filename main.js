@@ -512,15 +512,16 @@ function baseSaveEdited(){
 	
 	var len=$('#edit-target > tr').length;
 	for(var i=0;i<len;i++){
-		setProps(base[i],{
-			den  :1*document.getElementById('den'  +i).value,
-			para :1*document.getElementById('para' +i).value,
-			chzn :1*document.getElementById('chzn' +i).value,
-			aud  :document.getElementById('aud'  +i).value.split(','),
-			grp  :document.getElementById('grp'  +i).value.split(','),
-			prep :document.getElementById('prep' +i).value.split(','),
-			predm:document.getElementById('predm'+i).value,
-		});
+		if(document.getElementById('den'  +i))
+			setProps(base[i],{
+				den  :1*document.getElementById('den'  +i).value,
+				para :1*document.getElementById('para' +i).value,
+				chzn :1*document.getElementById('chzn' +i).value,
+				aud  :document.getElementById('aud'  +i).value.split(','),
+				grp  :document.getElementById('grp'  +i).value.split(','),
+				prep :document.getElementById('prep' +i).value.split(','),
+				predm:document.getElementById('predm'+i).value,
+			});
 	}
 	console.log(new Date().getTime()-bset);
 	build();
@@ -553,6 +554,7 @@ function preBuildEdit(){
 function buildEdit(){
 	$('#startbuild').hide();
 	findConflicts();
+	var notonlyconflicts=!$('#edit-only-conflicts').is(':checked');
 	var rez='';
 	var elem;
 	var commonVals=[0,1,2,3,4,5,6,7,8,9];
@@ -569,19 +571,20 @@ function buildEdit(){
 	var baselen=base.length;
 	for(var i=0;i<baselen;i++){
 		elem=base[i];
-		rez+=[
-			(''+i).vTag('span','id="yakor'+i+'"'),
-			makeSelect(dni ,commonVals,elem.den ,"den" +i),
-			makeSelect(pary,commonVals,elem.para,"para"+i),
-			makeSelect(cz  ,commonVals,elem.chzn,"chzn"+i),
-			makeInput(elem.aud,"aud"+i,"aud"),
-			makeInput(elem.grp,"grp"+i,"grp"),
-			makeInput(elem.prep,"prep"+i,"prep"),
-			makeInput(elem.predm,"predm"+i,"predm"),
-			conflicts[i-1].map(function(cnf){
-				return '<a href="#yakor'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
-			}).join(','),
-		].tr();	
+		if(notonlyconflicts || conflicts[i-1].length)
+			rez+=[
+				(''+i).vTag('span','id="yakor'+i+'"'),
+				makeSelect(dni ,commonVals,elem.den ,"den" +i),
+				makeSelect(pary,commonVals,elem.para,"para"+i),
+				makeSelect(cz  ,commonVals,elem.chzn,"chzn"+i),
+				makeInput(elem.aud,"aud"+i,"aud"),
+				makeInput(elem.grp,"grp"+i,"grp"),
+				makeInput(elem.prep,"prep"+i,"prep"),
+				makeInput(elem.predm,"predm"+i,"predm"),
+				conflicts[i-1].map(function(cnf){
+					return '<a href="#yakor'+(cnf+1)+'" >№'+(cnf+1)+'</a>';
+				}).join(','),
+			].tr();	
 	}
 	$('#edit-target').html(rez.vTag('form'));
 }
