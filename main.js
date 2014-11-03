@@ -129,9 +129,11 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	}
 	var groupsindex={};
 	var nagr=['','Нагрузка, ч/нед'];
+	var det6p=['',''];
 	for(var gi=0;gi<kolvoGroups;gi++){
 		groupsindex[groups[gi]]=gi;
-		nagr[gi+extLeftColumns]=0;
+		nagr [gi+extLeftColumns]=0;
+		det6p[gi]=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	}
 
 	var kolvoBase=base.length;
@@ -149,8 +151,10 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 				nyach=groupsindex[baseElem[zagol][g]]+extLeftColumns;
 				yach=(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2;
 				maintable[yach][nyach];
-				if(!maintable[yach][nyach])
-					nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
+				if(!maintable[yach][nyach] && groupsindex[baseElem[zagol][g]]+extLeftColumns && baseElem.predm!='НИР'){
+					nagr [groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
+					det6p[groupsindex[baseElem[zagol][g]]][baseElem.den*2+baseElem.chzn%2]++;
+				}
 				maintable[yach][nyach]=baseElem.predm+' '+baseElem[p1]+' '+baseElem[p2];
 				otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
 			}
@@ -200,12 +204,13 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	}
 
 	//Затыкаем пустые ячейки неразрывными пробелами
-	for(var i=0;i<kolvoPar;i++)
+	for(var i=0;i<kolvoPar;i++){
 		for(var j=0;j<kolvoGroups+extLeftColumns;j++)
 			if(tablemap[i][j].innerHTML===''){
 				tablemap[i][j].innerHTML='&nbsp;';
 				tablemap[i][j].className="empty";
 			}
+	}
 
 	for(var i=0;i<kolvoPar;i++){
 		var elemPerv=0;
@@ -256,6 +261,15 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 		}
 	}
 	$('#'+target)[0].appendChild(targetTable);
+
+	var suml=dni.length*2;
+	var par6='';
+	for(var gi=0;gi<kolvoGroups;gi++){
+		for(var i=0;i<suml;i++)
+			if(det6p[gi][i]>=6)
+				par6+="; "+groups[gi]+' - '+dni[(i/2).floor()]+' ('+['числ','знам'][i%2]+'.)';
+	}
+	console.log(par6);
 	console.log('countTable():'+(new Date().getTime()-start));
 	
 }
@@ -272,8 +286,8 @@ function build(){
 	$('#targetAud')[0].innerHTML='';
 //	console.log(base);
 	prepareBase();
-	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
+	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	preBuildEdit();
 //	console.log(base);
 	setTimeout(saveInBackground,10);
@@ -420,6 +434,7 @@ function diagr(){
 	for(var malnagr=[],mi=0;stataudmas[0][mi]<5;mi++)
 		malnagr.push(stataudmas[1][mi]);
 	$('#menee5').html(malnagr.length?malnagr.sort().join(', '):'нет');
+	console.log('Пустующие аудитории посчитаны');
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
