@@ -270,12 +270,12 @@ function build(){
 	}
 	$('#targetGroups')[0].innerHTML='';
 	$('#targetAud')[0].innerHTML='';
-	console.log(base);
+//	console.log(base);
 	prepareBase();
 	countTable("grp","prep","aud",'targetGroups','Группа',globalNolist);
 	countTable("aud","prep","grp",'targetAud','Аудитория',globalNolist);
 	preBuildEdit();
-	console.log(base);
+//	console.log(base);
 	setTimeout(saveInBackground,10);
 	console.log('build():'+(new Date().getTime()-start));
 }
@@ -416,6 +416,10 @@ function diagr(){
 	stataudmas=stataudmas.sortNumericArr();
 	stataudmas=stataudmas.T();
 	$('.jqplot-target-aud').css('width',stataudmas[0].length*50);
+//	console.log(stataudmas);
+	for(var malnagr=[],mi=0;stataudmas[0][mi]<5;mi++)
+		malnagr.push(stataudmas[1][mi]);
+	$('#menee5').html(malnagr.length?malnagr.sort().join(', '):'нет');
 	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
