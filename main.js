@@ -138,17 +138,20 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	var baseElem;
 	var g;
 	var mat;
-
+	var yach, nyach;
+	
 	for(var j=0;j<kolvoBase;j++){
 		baseElem=base[j];
 		for(g=0;g<baseElem[zagol].length;g++){
 			mat=baseElem[zagol][g].match(/^.*?(?=_)/);
 			mat=mat?mat[0]:'';
 			if(!nolist[mat]){
-				maintable[(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2]
-					[groupsindex[baseElem[zagol][g]]+extLeftColumns]=
-						baseElem.predm+' '+baseElem[p1]+' '+baseElem[p2];
-				nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
+				nyach=groupsindex[baseElem[zagol][g]]+extLeftColumns;
+				yach=(baseElem.den*kolvoParVDen+baseElem.para)*2+baseElem.chzn%2;
+				maintable[yach][nyach];
+				if(!maintable[yach][nyach])
+					nagr[groupsindex[baseElem[zagol][g]]+extLeftColumns]++;
+				maintable[yach][nyach]=baseElem.predm+' '+baseElem[p1]+' '+baseElem[p2];
 				otobrStroki[baseElem.den*kolvoParVDen+baseElem.para]=1;
 			}
 		}
