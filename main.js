@@ -182,7 +182,7 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 		for(var fi=0,flen=facult.length;fi<flen;fi++){
 			checksToAppend+=
 				(''.vTag('input',
-				'type="checkbox" '+'checked'.esli(!globalNolist[facult[fi]])+' onclick="build()" class="check-nolist" id="'+
+				'type="checkbox" '+'checked'.esli(!globalNolist[facult[fi]])+' onclick="waitfor(build);" class="check-nolist" id="'+
 				facult[fi]+'"')+facult[fi].vTag('span',' onclick="checkOnly(\''+zagol+'\',\''+facult[fi]+'\');"')
 				).vTag('span','title="'+podskaz[facult[fi]]+'"');
 		}
@@ -291,6 +291,7 @@ function build(){
 	preBuildEdit();
 //	console.log(base);
 	setTimeout(saveInBackground,10);
+	nowait();
 	console.log('build():'+(new Date().getTime()-start));
 }
 
@@ -461,6 +462,7 @@ function diagr(){
 		wrapdiv.appendChild(targdiv);
 		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
+	nowait();
 }
 
 function baseClean(){
@@ -602,6 +604,7 @@ function buildEdit(){
 			].tr();	
 	}
 	$('#edit-target').html(rez.vTag('form'));
+	nowait();
 }
 
 var kolvoDobav=22;
@@ -668,6 +671,7 @@ $(function(){
 	$("#tabs").tabs();
 	build();
 	buildDobav();
+	nowait();
 });
 
 function uniteGrp(){
@@ -685,7 +689,7 @@ function uniteGrp(){
 function checkOnly(abst,name){
 	$('#div-checks-'+abst+' > span > input').prop("checked",0);
 	$('#'+name).prop("checked",1);
-	build();
+	waitfor(build);
 }
 
 
@@ -707,4 +711,13 @@ function vyborParPoMaske(){
 	a.innerHTML = "<button>Сохранить</button>";
 	document.getElementById('span-mask').innerHTML='';
 	document.getElementById('span-mask').appendChild(a);
+}
+
+function nowait(){
+	$('#pleasewait').hide();
+}
+
+function waitfor(fun){
+	$('#pleasewait').show();
+	setTimeout(fun,100);
 }

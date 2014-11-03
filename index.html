@@ -60,7 +60,7 @@
 			<select id="select-korpusa" multiple>
 			</select>
 			<br/>
-			<button onclick="diagr();">
+			<button onclick="waitfor(diagr);">
 				Построить диаграммы
 			</button>
 			<div id="wrap-diagr">
@@ -88,7 +88,7 @@
 			Чтобы добавить пару, просто заполните пустую строку (пара №0) и нажмите "Применить изменения"
 			или воспользуйтесь вкладкой "Добавить".
 			<br/>
-			<button onclick="buildEdit();" id="startbuild">Начать редактирование</button>
+			<button onclick="waitfor(buildEdit);" id="startbuild">Начать редактирование</button>
 			<label>
 				<input type="checkbox" id="edit-only-conflicts" data-jstorage-id="edit-only-conflicts"/>
 				Только конфликтующие
@@ -180,7 +180,9 @@
 			Исходный код публикуется под лицензией GNU GPLv3.
 		</div>
 	</div>
-	
+	<div id="pleasewait">
+		Пожалуйста, подождите, идёт обработка данных...
+	</div>
 	<script src="chas-lib.js">
 	</script>
 	<script src="jquery-2.1.0.min.js">

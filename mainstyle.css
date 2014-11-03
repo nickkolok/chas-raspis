@@ -29,3 +29,16 @@ h3,h2{
 #jqplot-pary-po-dnyam{
 	width:95%;
 }
+#pleasewait{
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	background-color:grey;
+	height:77px;
+	font-size:2em;
+	text-align:center;
+	border-radius:21px;
+	vertical-align:middle;
+	padding-top:20px;
+}
