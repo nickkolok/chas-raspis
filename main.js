@@ -462,6 +462,9 @@ function diagr(){
 		wrapdiv.appendChild(targdiv);
 		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
+//	allCanvasToBackgroundImage();
+	replaceWithImg($('#jqplot-pary')[0]);
+	replaceWithImg($('#jqplot-dni')[0]);
 	nowait();
 }
 
