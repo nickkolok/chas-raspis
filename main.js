@@ -262,12 +262,20 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	}
 	$('#'+target)[0].appendChild(targetTable);
 
+	//Считаем, у кого 6 пар
 	var suml=dni.length*2;
 	var par6='';
 	for(var gi=0;gi<kolvoGroups;gi++){
-		for(var i=0;i<suml;i++)
-			if(det6p[gi][i]>=6)
-				par6+="; "+groups[gi]+' - '+dni[(i/2).floor()]+' ('+['числ','знам'][i%2]+'.)';
+		for(var i=0;i<suml;i++){
+			if(det6p[gi][i]>=6){
+				if(!(i%2) && det6p[gi][i+1]>=6){ 
+					par6+="\n"+groups[gi]+' - '+dni[(i/2).floor()];
+					i++;
+				}
+				else
+					par6+="\n"+groups[gi]+' - '+dni[(i/2).floor()]+' ('+['числ','знам'][i%2]+'.)';
+			}
+		}
 	}
 	console.log(par6);
 	console.log('countTable():'+(new Date().getTime()-start));
@@ -463,8 +471,8 @@ function diagr(){
 		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
 //	allCanvasToBackgroundImage();
-	replaceWithImg($('#jqplot-pary')[0]);
-	replaceWithImg($('#jqplot-dni')[0]);
+	innerHTMLtoImg($('#jqplot-pary')[0]);
+	innerHTMLtoImg($('#jqplot-dni' )[0]);
 	nowait();
 }
 
