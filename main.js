@@ -102,6 +102,9 @@ function countTable(zagol,p1,p2,target,ugolnazv,nolist){
 	var extTopRows=1;
 	var targetTable=document.createElement("table");
 	var groups=base.getVariety(zagol);
+	if(groups[0])
+		while(groups[0].search(/^\?|^-|[1-9]_[\-?]/)!=-1)
+			groups=groups.concat(groups.splice(0,1));
 	var groupsEtal=groups.slice();
 	var vlen=groups.length;
 	for(var vi=0;vi<vlen;vi++){
