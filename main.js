@@ -440,11 +440,11 @@ function diagr(){
 	stataudmas=stataudmas.T();
 	$('.jqplot-target-aud').css('width',stataudmas[0].length*50);
 //	console.log(stataudmas);
-	for(var malnagr=[],mi=0;stataudmas[0][mi]<5;mi++)
+/*	for(var malnagr=[],mi=0;stataudmas[0][mi]<5;mi++)
 		malnagr.push(stataudmas[1][mi]);
 	$('#menee5').html(malnagr.length?malnagr.sort().join(', '):'нет');
 	console.log('Пустующие аудитории посчитаны');
-	
+*/	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
 	nonjqplotBarRender('jqplot-aud' ,stataudmas[0],stataudmas[1],0);
