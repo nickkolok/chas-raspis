@@ -1,0 +1,223 @@
+<!DOCTYPE HTML5>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>
+		Расписание
+	</title>
+	<link rel="stylesheet" type="text/css" href="mainstyle.css"/>
+	<link type="text/css" href="jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+	<link type="text/css" href="jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" />
+	<link type="text/css" href="jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" />
+	<link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css">
+	<link class="include" rel="stylesheet" type="text/css" href="tufte/tufte-graph.css">
+</head>
+<body onload="$.jStorage.zagrData()" onunload="$.jStorage.sohrData()">
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">По учебным группам</a></li>
+			<li><a href="#tabs-2">По аудиториям</a></li>
+			<li><a href="#tabs-data">Сохранение и загрузка</a></li>
+			<li><a href="#tabs-diagr">Сводные диаграммы</a></li>
+			<li><a href="#tabs-edit">Редактировать</a></li>
+			<li><a href="#tabs-dobav">Добавить</a></li>
+			<li><a href="#tabs-instr">Инструкция</a></li>
+		</ul>
+		<div id="tabs-1">
+			<div id="targetGroups" class="scrollable-x">
+			</div>
+		</div>
+		<div id="tabs-2">
+			<div id="targetAud" class="scrollable-x">
+			</div>
+		</div>
+		<div id="tabs-data">
+			<h2>Очистка базы</h2>
+			Это действие нельзя отменить, но можно загрузить сохранённую ранее базу.
+			<button onclick="baseClean();">
+				Очистить
+			</button>
+			<h2>Сохранение базы</h2>
+			База будет сохранена в файл save.json
+			<span id="span-save"></span>
+			<br/>
+			Выбор пар по подстроке (для опытных пользователей):
+			<input id="input-mask" data-jstorage-id="input-mask"/>
+			<button onclick="vyborParPoMaske()">Выбрать</button>
+			<span id="span-mask"></span>
+			<h2>Импорт базы</h2>
+			В расписание будут добавлены все пары, содержащиеся в файле:
+			<input type="file" id="file-load" multiple /><button onclick="baseLoad();">Импортировать</button>
+			<h2>
+				Коррекция ошибок при наборе
+			</h2>
+			<button onclick="correctAuto();">Автоматическая статическая синонимическая</button>
+			<button onclick="correctPerechisl();">Перечислений без префикса</button>
+			<button onclick="uniteGrp();">Объединение пар по группам</button>
+		</div>
+		<div id="tabs-diagr">
+			Корпуса (используйте Shift и Ctrl для выбора нескольких):
+			<select id="select-korpusa" multiple>
+			</select>
+			<br/>
+			<button onclick="waitfor(diagr);">
+				Построить диаграммы
+			</button>
+			<div id="wrap-diagr">
+				<h2>Среднее количество аудиторий, задействованных в учебном процессе, в зависимости от времени:</h2>
+				<div id="jqplot-pary" class="jqplot-target A4">
+				</div>
+				<h2>Среднее количество аудиторий, задействованных в учебном процессе, в зависимости от дня недели:</h2>
+				<div id="jqplot-dni" class="jqplot-target A4">
+				</div>
+				<!--
+				<h2>Список аудиторий, заявленная нагрузка которых менее 5 часов в неделю:</h2>
+				<div id="menee5"></div>
+				-->
+				<h2>Средняя загрузка аудитории, академических часов в неделю:</h2>
+				<div class="x-scroll">
+					<div id="jqplot-aud" class="jqplot-target jqplot-target-aud">
+					</div>
+				</div>
+				<h2>Загрузка по дням недели, академических часов:</h2>
+				<div id="jqplot-pary-po-dnyam" class="jqplot-target">
+				</div>
+			</div>
+		</div>
+		<div id="tabs-edit">
+			Несколько групп, преподавателей или аудиторий вводятся через запятую без пробелов.
+			Чтобы  удалить пару, просто очистите информацию об аудитории, преподавателе или группе и нажмите "Применить изменения".
+			Чтобы добавить пару, просто заполните пустую строку (пара №0) и нажмите "Применить изменения"
+			или воспользуйтесь вкладкой "Добавить".
+			<br/>
+			<button onclick="waitfor(buildEdit);" id="startbuild">Начать редактирование</button>
+			<label>
+				<input type="checkbox" id="edit-only-conflicts" data-jstorage-id="edit-only-conflicts"/>
+				Только конфликтующие
+			</label>
+			<br/>
+			<button onclick="baseSaveEdited();">Применить изменения</button>
+			<table>
+				<thead>
+					<tr>
+						<td>№</td>
+						<td>День недели</td>
+						<td>Пара</td>
+						<td>Чётность</td>
+						<td>Аудитория</td>
+						<td>Группа</td>
+						<td>Преподаватель</td>
+						<td>Предмет</td>
+						<td>Конфликты (если есть)</td>
+					</tr>
+				</thead>
+				<tbody  id="edit-target">
+				</tbody>
+			</table>
+			<button onclick="baseSaveEdited();">Применить изменения</button>
+		</div>
+		<div id="tabs-dobav">
+			В данном интерфейсе можно просто добавить новые пары, не редактируя существующие.
+			Несколько групп, преподавателей или аудиторий вводятся через запятую без пробелов.
+			<button onclick="baseDobav();">Добавить в базу</button>
+			<form><table>
+				<thead>
+					<tr>
+						<td>№</td>
+						<td>День недели</td>
+						<td>Пара</td>
+						<td>Чётность</td>
+						<td>Аудитория</td>
+						<td>Группа</td>
+						<td>Преподаватель</td>
+						<td>Предмет</td>
+					</tr>
+				</thead>
+				<tbody  id="dobav-target">
+				</tbody>
+			</table></form>
+			<button onclick="baseDobav();">Добавить в базу</button>
+		</div>
+		<div id="tabs-instr">
+			<ul>
+				<li>
+					По всем вопросам обращайтесь по тел. 89515600579, e-mail nickkolok@mail.ru avdeev@math.vsu.ru
+				</li>
+				<li>
+					Группа указывается в формате: <tt>ФАКУЛЬТЕТ_КУРС_№группы.№подгруппы</tt>
+					Например:
+					<tt>МАТ_2_1.1</tt>,
+					<tt>ПММ_1СПО_91</tt>,
+					<tt>ФАРМ_2МАГ_3</tt>,
+					<tt>МАТ_3_КФА</tt> и т. д.
+				</li>
+				<li>
+					Номер аудитории указывается в формате КОРПУС_АУДИТОРИЯ. Факультетам соответствуют корпуса:
+					<br/>
+					1 - МАТ, БПФ, ФИЗ, ХИМ, ПММ, ФКН, ГЕОЛ
+					<br/>
+					2 - РГФ, ФИЛ
+					<br/>
+					3 - ФИПСИ
+					<br/>
+					4 - ФМО
+					<br/>
+					5 - ЭКО, ГГИТ
+					<br/>
+					6 - ЖУР
+					<br/>
+					7 - ФАРМ
+					<br/>
+					8 - ИСТ
+					<br/>
+					9 - ЮР
+					<br/>
+				</li>
+			</ul>
+			<br/>
+			Скачать программу для локального использования можно
+			<a href="https://github.com/nickkolok/chas-raspis/archive/master.zip">по ссылке</a>.
+			Распакуйте архив в любую папку и откройте файл index.html в браузере Mozilla Firefox или Google Chrome и ему подобном
+			(Яндекс-браузер, Chromium, Opera версии 15 и выше и т. д.).
+			Исходный код публикуется под лицензией GNU GPLv3.
+		</div>
+	</div>
+	<div id="pleasewait">
+		Пожалуйста, подождите, идёт обработка данных...
+	</div>
+	<script src="chas-lib.js">
+	</script>
+	<script src="jquery-2.1.0.min.js">
+	</script>
+	<script src="html2canvas.js">
+	</script>
+	<script src="func_jquery.js">
+	</script>
+	<script src="jstorage.min.js">
+	</script>
+	<script src="jstorage.zapomni.js">
+	</script>
+	<script src="jquery-ui/jquery-ui.min.js">
+	</script>
+	<script src="jqplot/jquery.jqplot.min.js">
+	</script>
+	<script src="jqplot/plugins/jqplot.barRenderer.min.js">
+	</script>
+	<script src="jqplot/plugins/jqplot.categoryAxisRenderer.min.js">
+	</script>
+	<script src="tufte/jquery.enumerable.js">
+	</script>
+	<script src="tufte/jquery.tufte-graph.js">
+	</script>
+	<script src="tufte/raphael.js">
+	</script>
+	<script src="data.js">
+	</script>
+	<script src="base.js">
+	</script>
+	<script src="main.js">
+	</script>
+	<script src="more.js">
+	</script>
+</body>
+</html>
