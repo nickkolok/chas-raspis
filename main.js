@@ -350,13 +350,6 @@ function saveInBackground(){
 	console.log('saveInBackground():'+(new Date().getTime()-starttime));
 }
 
-//Со слезами на глазах удаляем бэкапы
-var keys = $.jStorage.index();
-for(var i=0;i<keys.length;i++){
-	if(keys[i].search(/base0.*/)!=-1)
-		$.jStorage.deleteKey(keys[i]);
-}
-
 function nonjqplotBarRender(target,uroven,ticks,ymin){
 	var newticks=ticks.slice().map(function(elem,index){
 		return '<br/>'.esli(index%2)+elem;
@@ -473,12 +466,7 @@ function diagr(){
 	stataudmas=stataudmas.sortNumericArr();
 	stataudmas=stataudmas.T();
 	$('.jqplot-target-aud').css('width',stataudmas[0].length*50);
-//	console.log(stataudmas);
-/*	for(var malnagr=[],mi=0;stataudmas[0][mi]<5;mi++)
-		malnagr.push(stataudmas[1][mi]);
-	$('#menee5').html(malnagr.length?malnagr.sort().join(', '):'нет');
-	console.log('Пустующие аудитории посчитаны');
-*/	
+	
 	jqplotBarRender('jqplot-pary',statpary,pary,0);
 	jqplotBarRender('jqplot-dni' ,statdni ,dni ,0);
 	nonjqplotBarRender('jqplot-aud' ,stataudmas[0],stataudmas[1],0);
@@ -504,7 +492,6 @@ function diagr(){
 		wrapdiv.appendChild(targdiv);
 		nonjqplotBarRender('jqplot-podnyam-'+dni[i],statpodnyammas[i][0],statpodnyammas[i][1],0);
 	}
-//	allCanvasToBackgroundImage();
 	innerHTMLtoImg($('#jqplot-pary')[0]);
 	innerHTMLtoImg($('#jqplot-dni' )[0]);
 	nowait();
